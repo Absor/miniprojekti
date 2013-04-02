@@ -10,3 +10,9 @@ CI: http://t-tuokarkk.users.cs.helsinki.fi/jenkins/
 
 
 [![Build Status](http://t-tuokarkk.users.cs.helsinki.fi/jenkins/job/Ohtu-miniprojekti/badge/icon)](http://t-tuokarkk.users.cs.helsinki.fi/jenkins/job/Ohtu-miniprojekti/)
+
+
+#setup
+lataa play 2.0.4: http://downloads.typesafe.com/releases/play-2.0.4.zip  
+IDE setup: http://www.playframework.com/documentation/2.0.4/IDE  
+esim. eclipselle: projektihakemistossa aja "play eclipsify with-source=true"
