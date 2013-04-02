@@ -14,5 +14,6 @@ CI: http://t-tuokarkk.users.cs.helsinki.fi/jenkins/
 
 #setup
 lataa play 2.0.4: http://downloads.typesafe.com/releases/play-2.0.4.zip  
+Asennus: http://www.playframework.com/documentation/2.0.4/Installing (osa PATHista pääasiassa)  
 IDE setup: http://www.playframework.com/documentation/2.0.4/IDE  
 esim. eclipselle: projektihakemistossa aja "play eclipsify with-source=true"
