@@ -31,19 +31,19 @@ public class Reference extends Model {
 	 */
 	@Override
 	public String toString() {
-		String bibtexString = "@" + referenceType + "{" + id + "\n";
-		if (author != null) {
+		String bibtexString = "@" + referenceType + "{" + id + ",\n";
+		if (author != null && !author.isEmpty()) {
 			String parsedAuthor = parseSpecial(author);
 			bibtexString += "   author = {" + parsedAuthor + "},\n";
 		}
-		if (title != null) {
+		if (title != null && !title.isEmpty()) {
 			String parsedTitle = parseSpecial(title);
 			bibtexString += "   title = {" + parsedTitle + "},\n";
 		}
-		if (year != null) {
+		if (year != null && !year.isEmpty()) {
 			bibtexString += "   year = {" + year + "},\n";
 		}
-		if (publisher != null) {
+		if (publisher != null && !publisher.isEmpty()) {
 			String parsedPublisher = parseSpecial(publisher);
 			bibtexString += "   publisher = {" + parsedPublisher + "},\n";
 		}
