@@ -77,4 +77,16 @@ public class FunctionalTest {
         });
     }
     
+    @Test
+    public void downloadBibtex() {
+    	running(fakeApplication(inMemoryDatabase()), new Runnable() {
+            public void run() {
+                Result result = callAction(controllers.routes.ref.Application.generateBib());
+
+                assertThat(status(result)).isEqualTo(OK);
+                assertThat(contentAsString(result)).contains("author = {\\aa\\\"{o}\\\"{a}\\{\\\"\\$},");
+            }
+         });
+    }
+    
 }

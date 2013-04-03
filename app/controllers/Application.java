@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import models.Reference;
 import play.*;
 import play.data.*;
@@ -60,5 +62,17 @@ public class Application extends Controller {
         flash("success", "Reference has been deleted");
         return GO_HOME;
     }
-
+    
+    /*
+     * Handles bibtex-file generation and serving.
+     */
+    public static Result generateBib() {
+    	String bibtexedReferences = "";
+    	List<Reference> references = Reference.find.all();
+    	for (Reference reference : references) {
+    		bibtexedReferences += reference.toString() + "\n\n";
+    	}
+    	return ok(bibtexedReferences);
+    }
+    
 }
