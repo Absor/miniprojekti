@@ -12,7 +12,13 @@
         
         <fieldset>
         
-            @inputText(referenceForm("referenceType"), '_label -> "Reference type")
+        	@select(
+                referenceForm("referenceType.id"),
+                options(ReferenceType.options), 
+                '_label -> "Reference type", '_default -> "-- Choose a reference type --",
+                '_showConstraints -> false
+            )
+        
             @inputText(referenceForm("author"), '_label -> "Author")
             @inputText(referenceForm("title"), '_label -> "Title")
             @inputText(referenceForm("year"), '_label -> "Year")

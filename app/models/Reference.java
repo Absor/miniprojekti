@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import play.db.ebean.Model;
 import play.data.validation.*;
@@ -13,7 +14,8 @@ public class Reference extends Model {
 	public Long id;
 
 	@Constraints.Required
-	public String referenceType;
+	@ManyToOne
+	public ReferenceType referenceType;
 
 	public String author;
 
@@ -31,7 +33,7 @@ public class Reference extends Model {
 	 */
 	@Override
 	public String toString() {
-		String bibtexString = "@" + referenceType + "{" + id + ",\n";
+		String bibtexString = "@" + referenceType.name + "{" + id + ",\n";
 		if (author != null && !author.isEmpty()) {
 			String parsedAuthor = parseSpecial(author);
 			bibtexString += "   author = {" + parsedAuthor + "},\n";
@@ -47,9 +49,8 @@ public class Reference extends Model {
 			String parsedPublisher = parseSpecial(publisher);
 			bibtexString += "   publisher = {" + parsedPublisher + "},\n";
 		}
-		// remove end , if any
-		bibtexString = bibtexString.substring(0, bibtexString.length() - 2);
-		bibtexString += "\n}";
+		// end , is valid bibtex, no need to remove
+		bibtexString += "}";
 		
 		return bibtexString;
 	}

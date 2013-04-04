@@ -24,8 +24,9 @@ public class Application extends Controller {
 	 * Displays the full list of references.
 	 */
 	public static Result list() {
+		// Not only find.all() because we need the reference types joined.
         return ok(
-            list.render(Reference.find.all())
+            list.render(Reference.find.select("*").fetch("referenceType").findList())
         );
     }
 	
