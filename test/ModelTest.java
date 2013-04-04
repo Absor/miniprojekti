@@ -13,7 +13,7 @@ public class ModelTest {
            public void run() {
                Reference refFromDb = Reference.find.byId(1001l);
                assertThat(refFromDb.author).isEqualTo("testaut1");
-               assertThat(refFromDb.referenceType).isEqualTo("book");
+               assertThat(refFromDb.referenceType.id).isEqualTo(1);
            }
         });
     }
