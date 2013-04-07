@@ -6,6 +6,7 @@ import javax.persistence.ManyToOne;
 
 import play.db.ebean.Model;
 import play.data.validation.*;
+import play.data.validation.Constraints.*;
 
 @Entity
 public class Reference extends Model {
@@ -13,16 +14,20 @@ public class Reference extends Model {
 	@Id
 	public Long id;
 
-	@Constraints.Required
+	@Required
 	@ManyToOne
 	public ReferenceType referenceType;
 
+	@Required
 	public String author;
 
+	@Required
 	public String title;
 
+	@Required
 	public String year;
 
+	@Required
 	public String publisher;
 
 	public static Finder<Long, Reference> find = new Finder<Long, Reference>(
