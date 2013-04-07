@@ -55,8 +55,11 @@ public class FunctionalTest {
                 assertThat(status(result)).isEqualTo(BAD_REQUEST);
                 assertThat(contentAsString(result)).contains("<input type=\"text\" id=\"author\" name=\"author\" value=\"badbadbad\" >");
                 
-                // add the required type
+                // add the required fields
                 data.put("referenceType.id", "1");
+                data.put("title", "test");
+                data.put("year", "2013");
+                data.put("publisher", "otava");
                 
                 result = callAction(
                     controllers.routes.ref.Application.save(), 
