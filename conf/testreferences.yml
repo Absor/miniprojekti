@@ -1,0 +1,6 @@
+# Data for testing
+
+references:
+
+    - !! models.Reference
+        referenceType:

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -30,8 +31,7 @@ public class ReferenceType extends Model{
 	@JoinTable(name = "OptionalFields")
 	public List<FieldType> optionalFields = new ArrayList<FieldType>();
 	
-	public ReferenceType(Long id, String name, String[] required, String[] optional) {
-		this.id = id;
+	public ReferenceType(String name, String[] required, String[] optional) {
 		this.name = name;
 		
 		for (String field : required) {
