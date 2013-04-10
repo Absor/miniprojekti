@@ -1,0 +1,27 @@
+# Data for testing
+
+references:
+
+    - !!models.Reference
+        referenceType: !!models.ReferenceType
+                            id: 1
+        author: testaut1
+        title: testtit1
+        year: 1
+        publisher: testpub1
+        
+    - !!models.Reference
+        referenceType: !!models.ReferenceType
+                            id: 1
+        author: testaut2
+        title: testtit2
+        year: 2
+        publisher: testpub2
+        
+    - !!models.Reference
+        referenceType: !!models.ReferenceType
+                            id: 1
+        author: åöä{"$
+        title: testtit5
+        year: 5
+        publisher: testpub5
