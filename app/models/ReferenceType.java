@@ -22,14 +22,14 @@ import play.db.ebean.Model.Finder;
  *
  */
 @Entity
-public class ReferenceType extends Model{
+public class ReferenceType extends Model {
 
 	@Id
 	public Long id;
 	
 	public String name;
 	
-	// JoinTable names has to be stated explicitly for both lists for them to be seperate tables
+	// JoinTable names has to be stated explicitly for both lists for them to be separate tables
 	@ManyToMany(cascade = CascadeType.REMOVE)
 	@JoinTable(name = "RequiredFields")
 	public List<FieldType> requiredFields = new ArrayList<FieldType>();
@@ -50,7 +50,7 @@ public class ReferenceType extends Model{
 	}
 	
 	/**
-	 * Save-metod overrided to always save many to many associations
+	 * Save method overridden to always save many to many associations
 	 */
 	public void save() {
 		super.save();

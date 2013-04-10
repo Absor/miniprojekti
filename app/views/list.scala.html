@@ -1,8 +1,10 @@
-@(references: List[Reference])
+@(references:List[Reference], fieldTypes: List[FieldType])
 
 @main {
     
-    <h1 id="homeTitle">References list</h1>
+    <header>
+        <h1 id="homeTitle">References list</h1>
+    </header>
 
     @if(flash.containsKey("success")) {
         <div class="alert-message warning">
@@ -11,7 +13,7 @@
     } 
 
     <div id="actions">        
-        <a class="btn success" id="add" href="@routes.Application.create()">Add a new reference</a>
+        <a class="btn success" id="add" href="@routes.Application.choose()">Add a new reference</a>
         <a class="btn primary" id="download" href="@routes.Application.generateBib()">Download bibtex-file</a>
     </div>
     
@@ -25,66 +27,33 @@
         
         <table class="zebra-striped">
             <thead>
-                <tr>
-					<th>
-					ID
-					</th>
-					<th>
-					Reference type
-					</th>
-					<th>
-					Author
-					</th>
-					<th>
-					Title
-					</th>
-					<th>
-					Year
-					</th>
-					<th>
-					Publisher
-					</th>
+            <tr>
+            		<th>
+					type 
+					</th> 
+            @for(fieldType <- fieldTypes) {
+            		<th>
+					@fieldType.fieldName 
+					</th>       
+            }
                 </tr>
             </thead>
             <tbody>
-                @for(reference <- references) {
-                    <tr>
-                        <td>
-                        	@reference.id
-                        </td>
-                        <td>
-                        	@reference.referenceType.name
-                        </td>
-                        <td>
-                        	@if(reference.author == null) {
-                                <em>-</em>
-                            } else {
-                                @reference.author
-                            }
-                        </td>
-                        <td>
-                        	@if(reference.title == null) {
-                                <em>-</em>
-                            } else {
-                                @reference.title
-                            }
-                        </td>
-                        <td>
-                        	@if(reference.year == null) {
-                                <em>-</em>
-                            } else {
-                                @reference.year
-                            }
-                        </td>
-                        <td>
-                        	@if(reference.publisher == null) {
-                                <em>-</em>
-                            } else {
-                                @reference.publisher
-                            }
-                        </td>
-                    </tr>
-                }
+            @for(reference <- references) {
+            <tr>
+            		<td>
+            		@reference.referenceType.name
+            		</td>
+                @for(fieldType <- fieldTypes) {
+            		<td>
+					@{
+						val fields : Map[String, String] = reference.getMap
+						fields.get(fieldType.fieldName) 
+					}
+					</td>       
+            	}
+            }
+            </tr>
             </tbody>
         </table>
     }

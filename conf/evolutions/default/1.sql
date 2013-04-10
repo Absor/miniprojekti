@@ -11,10 +11,20 @@ create table field_type (
 create table reference (
   id                        bigint not null,
   reference_type_id         bigint,
-  author                    varchar(255),
   title                     varchar(255),
+  author                    varchar(255),
+  booktitle                 varchar(255),
   year                      varchar(255),
+  editor                    varchar(255),
+  volume                    varchar(255),
+  series                    varchar(255),
+  pages                     varchar(255),
+  address                   varchar(255),
+  month                     varchar(255),
+  organization              varchar(255),
   publisher                 varchar(255),
+  note                      varchar(255),
+  key                       varchar(255),
   constraint pk_reference primary key (id))
 ;
 

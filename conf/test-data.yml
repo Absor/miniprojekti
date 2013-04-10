@@ -7,6 +7,7 @@ references:
                             id: 1
         author: testaut1
         title: testtit1
+        booktitle: testboo1
         year: 1
         publisher: testpub1
         
@@ -15,6 +16,7 @@ references:
                             id: 1
         author: testaut2
         title: testtit2
+        booktitle: testboo2
         year: 2
         publisher: testpub2
         
@@ -22,6 +24,7 @@ references:
         referenceType: !!models.ReferenceType
                             id: 1
         author: åöä{"$
-        title: testtit5
-        year: 5
-        publisher: testpub5
+        title: testtit3
+        booktitle: testboo3
+        year: 3
+        publisher: testpub3

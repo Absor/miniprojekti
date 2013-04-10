@@ -9,8 +9,9 @@ GET     /                           	controllers.Application.index()
 GET     /references                 	controllers.Application.list()
 
 # Add reference
-GET     /references/new              	controllers.Application.create()
-POST    /references                  	controllers.Application.save()
+GET     /references/new              	controllers.Application.choose()
+GET     /references/new/:typeId        	controllers.Application.create(typeId:Long)
+POST    /references/:typeId             controllers.Application.save(typeId:Long)
 
 # Bibtex-file
 GET     /references/references.bib     	controllers.Application.generateBib()

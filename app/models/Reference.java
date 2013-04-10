@@ -1,12 +1,17 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.avaje.ebean.validation.NotNull;
+
 import play.db.ebean.Model;
-import play.data.validation.*;
-import play.data.validation.Constraints.*;
 
 /**
  * Model for references. A reference has various datafields and a reference type that knows which fields are
@@ -19,21 +24,36 @@ public class Reference extends Model {
 	@Id
 	public Long id;
 
-	@Required
 	@ManyToOne
 	public ReferenceType referenceType;
 
-	@Required
-	public String author;
-
-	@Required
 	public String title;
+	
+	public String author;
+	
+	public String booktitle;
 
-	@Required
 	public String year;
 
-	@Required
+	public String editor;
+	
+	public String volume;
+	
+	public String series;
+	
+	public String pages;
+	
+	public String address;
+	
+	public String month;
+	
+	public String organization;
+	
 	public String publisher;
+	
+	public String note;
+	
+	public String key;	
 
 	public static Finder<Long, Reference> find = new Finder<Long, Reference>(Long.class, Reference.class);
 
@@ -42,9 +62,37 @@ public class Reference extends Model {
 	 */
 	@Override
 	public String toString() {
-		Bibtex bibtex = new Bibtex();
-		String type[] = { "author", "title", "year", "publisher" };
-		String value[] = { author, title, year, publisher };
-		return bibtex.generate(referenceType.name, id, type, value);
+		return Bibtex.generate(referenceType.name, id, this.getMap());
+	}
+	
+	public Map<String, String> getMap() {
+		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+		map.put("title", title);
+		map.put("author", author);
+		map.put("booktitle", booktitle);
+		map.put("year", year);
+		map.put("editor", editor);
+		map.put("volume", volume);
+		map.put("series", series);
+		map.put("pages", pages);
+		map.put("address", address);
+		map.put("month", month);
+		map.put("organization", organization);
+		map.put("publisher", publisher);
+		map.put("note", note);
+		map.put("key", key);
+		return map;
+	}
+
+	public List<String> checkRequired() {
+		ArrayList<String> errors = new ArrayList<String>();
+		Map <String, String> fields = this.getMap();
+		for (FieldType fieldType : referenceType.requiredFields) {
+			String field = fields.get(fieldType.fieldName);
+			if (field == null || field.isEmpty()) {
+				errors.add(fieldType.fieldName);
+			}
+		}
+		return errors;
 	}
 }

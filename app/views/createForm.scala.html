@@ -1,33 +1,30 @@
-@(referenceForm: Form[Reference])
+@(referenceForm: Form[Reference], referenceType: ReferenceType)
 
 @import helper._
 
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
 
 @main {
+    <header>
+    	<h1>Add a reference</h1>
+    </header>
     
-    <h1>Add a reference</h1>
-    
-    @form(routes.Application.save()) {
+    @form(routes.Application.save(referenceType.id)) {
         
         <fieldset>
-        
-        	@select(
-                referenceForm("referenceType.id"),
-                options(ReferenceType.options), 
-                '_label -> "Reference type", '_default -> "-- Choose a reference type --",
-                '_showConstraints -> false
-            )
-        
-            @inputText(referenceForm("author"), '_label -> "Author")
-            @inputText(referenceForm("title"), '_label -> "Title")
-            @inputText(referenceForm("year"), '_label -> "Year")
-            @inputText(referenceForm("publisher"), '_label -> "Publisher")
+        	<h3>Required fields:</h3>
+        	@for(field <- referenceType.requiredFields) {
+				@inputText(referenceForm(field.fieldName), '_label -> field.fieldName)
+        	}
+        	<h3>Optional fields:</h3>
+        	@for(field <- referenceType.optionalFields) {
+				@inputText(referenceForm(field.fieldName), '_label -> field.fieldName)
+        	}
 
         </fieldset>
         
         <div class="actions">
-            <input type="submit" value="Create this reference" class="btn primary"> or 
+            <input type="submit" value="Create this reference" class="btn primary"/> or 
             <a href="@routes.Application.list()" class="btn">Cancel</a> 
         </div>
         

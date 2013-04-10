@@ -1,0 +1,16 @@
+@(types: List[ReferenceType])
+
+
+@main {
+    
+    <header>
+    	<h1>Choose a reference type</h1>
+    </header>
+    
+	<div id="actions">
+		@for(referenceType <- types) {
+		<a class="btn success" id="add_@referenceType.name" href="@routes.Application.create(referenceType.id)">@referenceType.name</a>
+		}
+    </div>
+    
+}
