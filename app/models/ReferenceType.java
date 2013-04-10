@@ -15,6 +15,12 @@ import javax.persistence.ManyToMany;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
+
+/**
+ * Model for reference types. A reference type has its name and lists of required and optional
+ * fields. New reference types shouldn't need to be created outside initial-data.yml.
+ *
+ */
 @Entity
 public class ReferenceType extends Model{
 
@@ -23,6 +29,7 @@ public class ReferenceType extends Model{
 	
 	public String name;
 	
+	// JoinTable names has to be stated explicitly for both lists for them to be seperate tables
 	@ManyToMany(cascade = CascadeType.REMOVE)
 	@JoinTable(name = "RequiredFields")
 	public List<FieldType> requiredFields = new ArrayList<FieldType>();
@@ -42,6 +49,9 @@ public class ReferenceType extends Model{
 		}
 	}
 	
+	/**
+	 * Save-metod overrided to always save many to many associations
+	 */
 	public void save() {
 		super.save();
 		this.saveManyToManyAssociations("requiredFields");

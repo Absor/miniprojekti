@@ -8,6 +8,11 @@ import play.db.ebean.Model;
 import play.data.validation.*;
 import play.data.validation.Constraints.*;
 
+/**
+ * Model for references. A reference has various datafields and a reference type that knows which fields are
+ * required and which optional.
+ *
+ */
 @Entity
 public class Reference extends Model {
 
