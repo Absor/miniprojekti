@@ -25,11 +25,12 @@ public class Global extends GlobalSettings {
                 
                 Map<String,List<Object>> all = (Map<String,List<Object>>)Yaml.load("initial-data.yml");
 
-                // Insert all field types first
+                // Insert all field and reference types first
                 Ebean.save(all.get("fieldTypes"));
                 Ebean.save(all.get("referenceTypes"));
+                
                 for(Object project: all.get("referenceTypes")) {
-                    // Insert the project/user relation
+                    // Insert the referenceType/fieldType relations
                     Ebean.saveManyToManyAssociations(project, "requiredFields");
                     Ebean.saveManyToManyAssociations(project, "optionalFields");
                 }
