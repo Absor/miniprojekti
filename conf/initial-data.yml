@@ -1,0 +1,43 @@
+#Initial data about all field and reference types
+
+fieldTypes:
+
+    - !!models.FieldType
+        fieldName: title
+
+    - !!models.FieldType
+        fieldName: author
+
+    - !!models.FieldType
+        fieldName: year
+
+    - !!models.FieldType
+        fieldName: publisher
+        
+    - !!models.FieldType
+        fieldName: booktitle
+        
+    - !!models.FieldType
+        fieldName: volume/number
+        
+    - !!models.FieldType
+        fieldName: editor
+
+referenceTypes:
+
+    - !!models.ReferenceType
+        name: inproceedings
+        requiredFields:
+            - !!models.FieldType
+                fieldName: author
+            - !!models.FieldType
+                fieldName: title
+            - !!models.FieldType
+                fieldName: booktitle
+            - !!models.FieldType
+                fieldName: year
+        optionalFields:
+            - !!models.FieldType
+                fieldName: editor
+            - !!models.FieldType
+                fieldName: volume/number
