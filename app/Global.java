@@ -16,6 +16,10 @@ public class Global extends GlobalSettings {
 		InitialData.insert(app);
 	}
 	
+	/**
+	 * A temporary class used to fill the database with necessary initialization data from initial-data.ym.
+	 *
+	 */
 	static class InitialData {
         
         public static void insert(Application app) {
