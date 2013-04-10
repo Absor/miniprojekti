@@ -12,15 +12,18 @@
     @form(routes.Application.save(referenceType.id)) {
         
         <fieldset>
-        	<h3>Required fields:</h3>
-        	@for(field <- referenceType.requiredFields) {
-				@inputText(referenceForm(field.fieldName), '_label -> field.fieldName)
+         	@if(referenceType.requiredFields.length != 0) {
+        		<h3>Required fields:</h3>
+        		@for(field <- referenceType.requiredFields) {
+					@inputText(referenceForm(field.fieldName), '_label -> field.fieldName)
+        		}
         	}
-        	<h3>Optional fields:</h3>
-        	@for(field <- referenceType.optionalFields) {
-				@inputText(referenceForm(field.fieldName), '_label -> field.fieldName)
-        	}
-
+        	@if(referenceType.optionalFields.length != 0) {
+		       	<h3>Optional fields:</h3>
+		       	@for(field <- referenceType.optionalFields) {
+					@inputText(referenceForm(field.fieldName), '_label -> field.fieldName)
+		       	}
+		    }
         </fieldset>
         
         <div class="actions">

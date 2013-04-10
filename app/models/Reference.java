@@ -52,7 +52,13 @@ public class Reference extends Model {
 	
 	public String note;
 	
-	public String key;	
+	public String key;
+	
+	public String journal;
+	
+	public String howpublished;
+	
+	public String edition;
 
 	public static Finder<Long, Reference> find = new Finder<Long, Reference>(Long.class, Reference.class);
 
@@ -80,6 +86,9 @@ public class Reference extends Model {
 		map.put("publisher", publisher);
 		map.put("note", note);
 		map.put("key", key);
+		map.put("journal", journal);
+		map.put("howpublished", howpublished);
+		map.put("edition", edition);
 		return map;
 	}
 

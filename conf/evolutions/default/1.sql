@@ -25,6 +25,9 @@ create table reference (
   publisher                 varchar(255),
   note                      varchar(255),
   key                       varchar(255),
+  journal                   varchar(255),
+  howpublished              varchar(255),
+  edition                   varchar(255),
   constraint pk_reference primary key (id))
 ;
 

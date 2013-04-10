@@ -43,6 +43,15 @@ fieldTypes:
         
     - !!models.FieldType
         fieldName: key
+        
+    - !!models.FieldType
+        fieldName: journal
+        
+    - !!models.FieldType
+        fieldName: howpublished
+        
+    - !!models.FieldType
+        fieldName: edition
 
 referenceTypes:
 
@@ -74,6 +83,75 @@ referenceTypes:
                 fieldName: organization
             - !!models.FieldType
                 fieldName: publisher
+            - !!models.FieldType
+                fieldName: note
+            - !!models.FieldType
+                fieldName: key
+                
+    - !!models.ReferenceType
+        name: article
+        requiredFields:
+            - !!models.FieldType
+                fieldName: author
+            - !!models.FieldType
+                fieldName: title
+            - !!models.FieldType
+                fieldName: journal
+            - !!models.FieldType
+                fieldName: year
+        optionalFields:
+            - !!models.FieldType
+                fieldName: volume
+            - !!models.FieldType
+                fieldName: pages
+            - !!models.FieldType
+                fieldName: month
+            - !!models.FieldType
+                fieldName: note
+            - !!models.FieldType
+                fieldName: key
+                
+    - !!models.ReferenceType
+        name: book
+        requiredFields:
+            - !!models.FieldType
+                fieldName: author
+            - !!models.FieldType
+                fieldName: title
+            - !!models.FieldType
+                fieldName: publisher
+            - !!models.FieldType
+                fieldName: year
+        optionalFields:
+            - !!models.FieldType
+                fieldName: volume
+            - !!models.FieldType
+                fieldName: series
+            - !!models.FieldType
+                fieldName: address
+            - !!models.FieldType
+                fieldName: edition
+            - !!models.FieldType
+                fieldName: month
+            - !!models.FieldType
+                fieldName: note
+            - !!models.FieldType
+                fieldName: key
+                
+    - !!models.ReferenceType
+        name: misc
+        requiredFields:
+        optionalFields:
+            - !!models.FieldType
+                fieldName: author
+            - !!models.FieldType
+                fieldName: title
+            - !!models.FieldType
+                fieldName: howpublished
+            - !!models.FieldType
+                fieldName: month
+            - !!models.FieldType
+                fieldName: year
             - !!models.FieldType
                 fieldName: note
             - !!models.FieldType
