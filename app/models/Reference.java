@@ -8,7 +8,7 @@ import play.db.ebean.Model;
 import play.data.validation.*;
 import play.data.validation.Constraints.*;
 
-import java.util.Calendar;
+
 /**
  * Model for references. A reference has various datafields and a reference type that knows which fields are
  * required and which optional.
@@ -25,9 +25,11 @@ public class Reference extends Model {
 	public ReferenceType referenceType;
 
 	@Required
+	@MinLength(2)
 	public String author;
 
 	@Required
+	@MinLength(1)
 	public String title;
 
 	@Required
@@ -36,6 +38,7 @@ public class Reference extends Model {
 	public int year;
 
 	@Required
+	@MinLength(2)
 	public String publisher;
 
 	public static Finder<Long, Reference> find = new Finder<Long, Reference>(Long.class, Reference.class);
@@ -46,8 +49,9 @@ public class Reference extends Model {
 	@Override
 	public String toString() {
 		Bibtex bibtex = new Bibtex();
+		String years = Integer.toString(year);
 		String type[] = { "author", "title", "year", "publisher" };
-		String value[] = { author, title, year, publisher };
+		String value[] = { author, title, years, publisher };
 		return bibtex.generate(referenceType.name, id, type, value);
 	}
 }
