@@ -9,9 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.avaje.ebean.validation.NotNull;
-
 import play.db.ebean.Model;
+
 
 /**
  * Model for references. A reference has various datafields and a reference type that knows which fields are
@@ -20,7 +19,7 @@ import play.db.ebean.Model;
  */
 @Entity
 public class Reference extends Model {
-
+	
 	@Id
 	public Long id;
 
