@@ -8,6 +8,7 @@ import play.db.ebean.Model;
 import play.data.validation.*;
 import play.data.validation.Constraints.*;
 
+import java.util.Calendar;
 /**
  * Model for references. A reference has various datafields and a reference type that knows which fields are
  * required and which optional.
@@ -15,7 +16,7 @@ import play.data.validation.Constraints.*;
  */
 @Entity
 public class Reference extends Model {
-
+	
 	@Id
 	public Long id;
 
@@ -30,7 +31,9 @@ public class Reference extends Model {
 	public String title;
 
 	@Required
-	public String year;
+	@Min(0)
+	@Max(2050)
+	public int year;
 
 	@Required
 	public String publisher;
