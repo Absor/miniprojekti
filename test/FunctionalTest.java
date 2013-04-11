@@ -46,11 +46,11 @@ public class FunctionalTest {
 		String content = contentAsString(result);
 
 		// title
-		assertThat(content.contains("References list"));
+		assertThat(content.contains("References list")).isTrue();
 
 		// buttons
-		assertThat(content.contains("Add a new reference"));
-		assertThat(content.contains("Download bibtex-file"));
+		assertThat(content.contains("Add a new reference")).isTrue();
+		assertThat(content.contains("Download bibtex-file")).isTrue();
 	}
 
 	@Test
@@ -62,9 +62,9 @@ public class FunctionalTest {
 		String content = contentAsString(result);
 
 		// all test data shows
-		assertThat(content.contains("testtit1"));
-		assertThat(content.contains("testtit2"));
-		assertThat(content.contains("testtit3"));
+		assertThat(content.contains("testtit1")).isTrue();
+		assertThat(content.contains("testtit2")).isTrue();
+		assertThat(content.contains("testtit3")).isTrue();
 	}
 
 	@Test
@@ -80,7 +80,7 @@ public class FunctionalTest {
 		// buttons for all types
 		List<ReferenceType> types = ReferenceType.find.all();
 		for (ReferenceType type : types) {
-			assertThat(content.contains(type.name));
+			assertThat(content.contains(type.name)).isTrue();
 		}
 	}
 
@@ -92,14 +92,14 @@ public class FunctionalTest {
 		String content = contentAsString(result);
 
 		// title
-		assertThat(content.contains("Add a reference"));
+		assertThat(content.contains("Add a reference")).isTrue();
 		// all fields
 		ReferenceType rType = ReferenceType.find.byId(1l);
 		for (FieldType fType : rType.optionalFields) {
-			assertThat(content.contains(fType.fieldName));
+			assertThat(content.contains(fType.fieldName)).isTrue();
 		}
 		for (FieldType fType : rType.requiredFields) {
-			assertThat(content.contains(fType.fieldName));
+			assertThat(content.contains(fType.fieldName)).isTrue();
 		}
 	}
 
@@ -139,6 +139,42 @@ public class FunctionalTest {
 	}
 
 	@Test
+	public void allFieldsWork() {
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("author", "badbadbad1");
+		data.put("booktitle", "badbadbad2");
+		data.put("title", "badbadbad3");
+		data.put("year", "badbadbad4");
+		data.put("address", "badbadbad5");
+		data.put("editor", "badbadbad6");
+		data.put("key", "badbadbad7");
+		data.put("month", "badbadbad8");
+		data.put("note", "badbadbad9");
+		data.put("organization", "badbadbad10");
+		data.put("pages", "badbadbad11");
+		data.put("publisher", "badbadbad12");
+		data.put("series", "badbadbad13");
+		data.put("volume", "badbadbad14");
+
+		Result result = callAction(controllers.routes.ref.Application.save(1),
+				fakeRequest().withFormUrlEncodedBody(data));
+
+		// should succeed
+		assertThat(status(result)).isEqualTo(SEE_OTHER);
+		assertThat(redirectLocation(result)).isEqualTo("/references");
+		assertThat(flash(result).get("success")).isEqualTo(
+				"Reference has been created!");
+
+		// new addition should be listed with all added info
+		result = callAction(controllers.routes.ref.Application.list());
+		assertThat(status(result)).isEqualTo(OK);
+		String content = contentAsString(result);
+		for (int i = 1; i <= 14; i++) {
+			assertThat(content.contains("badbadbad" + i)).isTrue();
+		}
+	}
+
+	@Test
 	public void createNewInproceedingsWorksWithRequiredData() {
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("author", "badbadbad1");
@@ -159,10 +195,10 @@ public class FunctionalTest {
 		result = callAction(controllers.routes.ref.Application.list());
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
-		assertThat(content.contains("badbadbad1"));
-		assertThat(content.contains("badbadbad2"));
-		assertThat(content.contains("badbadbad3"));
-		assertThat(content.contains("badbadbad4"));
+		assertThat(content.contains("badbadbad1")).isTrue();
+		assertThat(content.contains("badbadbad2")).isTrue();
+		assertThat(content.contains("badbadbad3")).isTrue();
+		assertThat(content.contains("badbadbad4")).isTrue();
 	}
 
 	@Test
@@ -173,11 +209,10 @@ public class FunctionalTest {
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
-		assertThat(content.contains(
-				"author = {\\aa\\\"{o}\\\"{a}\\{\\\"\\$},"));
+		assertThat(content.contains("author = {\\aa\\\"{o}\\\"{a}\\{\\\"\\$},"));
 
 	}
-	
+
 	@Test
 	public void bibtexGenListsAll() {
 
@@ -186,9 +221,9 @@ public class FunctionalTest {
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
-		assertThat(content.contains("testtit1"));
-		assertThat(content.contains("testtit2"));
-		assertThat(content.contains("testtit3"));
+		assertThat(content.contains("testtit1")).isTrue();
+		assertThat(content.contains("testtit2")).isTrue();
+		assertThat(content.contains("testtit3")).isTrue();
 	}
 
 }
