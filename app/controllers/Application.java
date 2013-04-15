@@ -60,9 +60,14 @@ public class Application extends Controller {
 		}
 
 		// validation
+		if (!Reference.isReferenceIdUnique(referenceForm.data().get("referenceId"))) {
+			flash("failure", "Reference ID has to be unique!");
+			return badRequest(createForm.render(referenceForm, type));
+		}
 		if (referenceForm.hasErrors()) {
 			return badRequest(createForm.render(referenceForm, type));
 		}
+		
 		// check required fields
 		Reference reference = referenceForm.get();
 		reference.referenceType = type;
@@ -73,10 +78,11 @@ public class Application extends Controller {
 			}
 			return badRequest(createForm.render(referenceForm, type));
 		}
-		reference.checkReferenceId();
+		
 
 		// save and return to main
 		reference.save();
+		reference.generateReferenceId();
 		flash("success", "Reference has been created!");
 		return GO_HOME;
 	}

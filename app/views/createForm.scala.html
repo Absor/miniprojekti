@@ -9,6 +9,12 @@
     	<h1>Add a reference</h1>
     </header>
     
+    @if(flash.containsKey("failure")) {
+        <div class="alert-message danger">
+            @flash.get("failure")
+        </div>
+    } 
+    
     @form(routes.Application.save(referenceType.id)) {
         
         <fieldset>

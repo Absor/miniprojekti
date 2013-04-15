@@ -29,6 +29,7 @@ create table reference (
   journal                   varchar(255),
   howpublished              varchar(255),
   edition                   varchar(255),
+  constraint uq_reference_reference_id unique (reference_id),
   constraint pk_reference primary key (id))
 ;
 

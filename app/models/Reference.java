@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.avaje.ebean.Ebean;
 
 import play.db.ebean.Model;
 
@@ -27,6 +30,7 @@ public class Reference extends Model {
 	@ManyToOne
 	public ReferenceType referenceType;
 	
+	@Column(unique = true)
 	public String referenceId;
 
 	public String title;
@@ -108,20 +112,41 @@ public class Reference extends Model {
 		return errors;
 	}
 
-	public void checkReferenceId() {
-		if (referenceId == null || referenceId.isEmpty()) {
-			// If author and year are defined, generate ID from them using the 
-			// first letter of surname and last two digits of the year
-			if (!author.isEmpty() || !year.isEmpty()) {
-				if (year.length() >= 4)
-					referenceId = author.charAt(0) + year.substring(2);
-				else
-					referenceId = author.charAt(0) + year;
-			}
-			// Otherwise use the database generated id
-			else {
-				referenceId = Long.toString(id);
-			}
+	public void generateReferenceId() {
+		if (referenceId != null && !referenceId.isEmpty())
+			return;
+
+		// If author and year are defined, generate ID from them using the 
+		// first letter of surname and last two digits of the year
+		if (!author.isEmpty() || !year.isEmpty()) {
+			if (year.length() >= 4)
+				referenceId = author.charAt(0) + year.substring(2);
+			else
+				referenceId = author.charAt(0) + year;
 		}
+		// Otherwise use the database generated id
+		else {
+			referenceId = Long.toString(this.id);
+		}
+		
+		// If the generated id isn't unique, add a numeric suffix to make it unique
+		if (!isReferenceIdUnique(referenceId)) {
+			int suffix = 1;
+			while(!isReferenceIdUnique(referenceId + "-" + suffix))
+				suffix++;
+			referenceId += "-" + suffix;
+		}
+		save();
+	}
+
+	public static boolean isReferenceIdUnique(String referenceId) {
+		if (referenceId == null || referenceId.isEmpty())
+			return true;
+		
+		Reference search = find.where().eq("referenceId", referenceId).findUnique();
+		if (search == null)
+			return true;
+		else
+			return false;
 	}
 }
