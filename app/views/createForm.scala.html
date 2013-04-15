@@ -20,6 +20,7 @@
         	}
         	@if(referenceType.optionalFields.length != 0) {
 		       	<h3>Optional fields:</h3>
+		       	@inputText(referenceForm("referenceId"), '_label -> "Reference ID")
 		       	@for(field <- referenceType.optionalFields) {
 					@inputText(referenceForm(field.fieldName), '_label -> field.fieldName)
 		       	}

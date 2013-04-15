@@ -3,6 +3,9 @@
 fieldTypes:
 
     - !!models.FieldType
+        fieldName: referenceId
+
+    - !!models.FieldType
         fieldName: author
 
     - !!models.FieldType

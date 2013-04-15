@@ -73,6 +73,7 @@ public class Application extends Controller {
 			}
 			return badRequest(createForm.render(referenceForm, type));
 		}
+		reference.checkReferenceId();
 
 		// save and return to main
 		reference.save();

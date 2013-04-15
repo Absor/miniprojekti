@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,6 +26,8 @@ public class Reference extends Model {
 
 	@ManyToOne
 	public ReferenceType referenceType;
+	
+	public String referenceId;
 
 	public String title;
 	
@@ -72,6 +75,7 @@ public class Reference extends Model {
 	
 	public Map<String, String> getMap() {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+		map.put("referenceId", referenceId);
 		map.put("title", title);
 		map.put("author", author);
 		map.put("booktitle", booktitle);
@@ -102,5 +106,22 @@ public class Reference extends Model {
 			}
 		}
 		return errors;
+	}
+
+	public void checkReferenceId() {
+		if (referenceId == null || referenceId.isEmpty()) {
+			// If author and year are defined, generate ID from them using the 
+			// first letter of surname and last two digits of the year
+			if (!author.isEmpty() || !year.isEmpty()) {
+				if (year.length() >= 4)
+					referenceId = author.charAt(0) + year.substring(2);
+				else
+					referenceId = author.charAt(0) + year;
+			}
+			// Otherwise use the database generated id
+			else {
+				referenceId = Long.toString(id);
+			}
+		}
 	}
 }
