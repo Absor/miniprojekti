@@ -8,10 +8,12 @@
     </header>
     
 	<div id="actions">
-		@for(referenceType <- types) {
-		<a class="btn success" id="add_@referenceType.name" href="@routes.Application.create(referenceType.id)">@referenceType.name</a>
-		}
-		or <a href="@routes.Application.list()" class="btn">Cancel</a>
+		<div class="btn-group btn-group-vertical">  
+			@for(referenceType <- types) {
+			<a class="btn btn-success" id="add_@referenceType.name" href="@routes.Application.create(referenceType.id)">@referenceType.name</a>
+			}
+		</div>
+		or <a href="@routes.Application.list()" class="btn btn-danger">Cancel</a>
     </div>
     
 }

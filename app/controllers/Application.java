@@ -74,7 +74,7 @@ public class Application extends Controller {
 		List<String> requiredResults = reference.checkRequired();
 		if (!requiredResults.isEmpty()) {
 			for (String field : requiredResults) {
-				referenceForm.reject(field, "Fill all required fields.");
+				referenceForm.reject(field, "required");
 			}
 			return badRequest(createForm.render(referenceForm, type));
 		}

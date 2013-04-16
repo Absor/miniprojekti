@@ -2,7 +2,7 @@
 
 @import helper._
 
-@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) } 
 
 @main {
     <header>
@@ -15,7 +15,7 @@
         </div>
     } 
     
-    @form(routes.Application.save(referenceType.id)) {
+    @form(routes.Application.save(referenceType.id), 'class -> "form-horizontal") {
         
         <fieldset>
          	@if(referenceType.requiredFields.length != 0) {
@@ -33,9 +33,9 @@
 		    }
         </fieldset>
         
-        <div class="actions">
-            <input type="submit" value="Create this reference" class="btn primary"/> or 
-            <a href="@routes.Application.list()" class="btn">Cancel</a> 
+        <div class="form-actions">
+            <input type="submit" value="Create this reference" class="btn btn-primary"/> or 
+            <a href="@routes.Application.list()" class="btn btn-danger">Cancel</a> 
         </div>
         
     }

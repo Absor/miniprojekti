@@ -3,20 +3,21 @@
 @main {
     
     <header>
-        <h1 id="homeTitle">References list</h1>
+        <h1>References list</h1>
     </header>
 
     @if(flash.containsKey("success")) {
-        <div class="alert-message warning">
+        <div class="alert alert-success">
             <strong>Done!</strong> @flash.get("success")
         </div>
     } 
 
-    <div id="actions">        
-        <a class="btn success" id="add" href="@routes.Application.choose()">Add a new reference</a>
-        <a class="btn primary" id="download" href="@routes.Application.generateBib()">Download bibtex-file</a>
-    </div>
-    
+	<div class="btn-group" id="actions">      
+   		<a class="btn btn-success" id="add" href="@routes.Application.choose()">Add a new reference</a>
+   		<a class="btn btn-primary" id="download" href="@routes.Application.generateBib()">Download bibtex-file</a>
+   	</div>
+   	<br /><br />
+        
     @if(references.size == 0) {
         
         <div class="well">
@@ -25,7 +26,7 @@
         
     } else {
         
-        <table class="zebra-striped">
+        <table class="table table-hover table-bordered">
             <thead>
             <tr>
             		<th>
