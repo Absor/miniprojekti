@@ -60,4 +60,51 @@ public class ModelTest {
         assertThat(ref.optionalFields.get(0).fieldName).isEqualTo("Optional 1");
     }
     
+    // Testing referece ID generation
+    
+    @Test
+    public void ReferenceIdGeneratedFromAuthorAndYear() {
+    	Reference ref = new Reference();
+    	ref.referenceType = ReferenceType.find.where().eq("name", "misc").findUnique();
+    	ref.author = "Luukkainen, Matti";
+    	ref.year = "2009";
+    	ref.generateReferenceId();
+    	assertThat(ref.referenceId).isEqualTo("L09");
+    }
+    
+    @Test
+    public void ReferenceIdGenerationAddsSuffix() {
+    	Reference ref = new Reference();
+    	ref.referenceType = ReferenceType.find.where().eq("name", "misc").findUnique();
+    	ref.author = "Luukkainen, Matti";
+    	ref.year = "2009";
+    	ref.generateReferenceId();
+    	
+    	ref = new Reference();
+    	ref.referenceType = ReferenceType.find.where().eq("name", "misc").findUnique();
+    	ref.author = "Luukkainen, Matti";
+    	ref.year = "2009";
+    	ref.generateReferenceId();
+    	
+    	assertThat(ref.referenceId).isEqualTo("L09-1");
+    	
+    	ref = new Reference();
+    	ref.referenceType = ReferenceType.find.where().eq("name", "misc").findUnique();
+    	ref.author = "Luukkainen, Matti";
+    	ref.year = "2009";
+    	ref.generateReferenceId();
+    	
+    	assertThat(ref.referenceId).isEqualTo("L09-2");
+    }
+    
+    @Test
+    public void ReferenceIdIsDatabaseIdWithoutAuthorAndYear() {
+    	Reference ref = new Reference();
+    	ref.referenceType = ReferenceType.find.where().eq("name", "misc").findUnique();
+    	ref.author = "Luukkainen, Matti";
+    	ref.save();
+    	ref.generateReferenceId();
+    	String id = Long.toString(ref.id);
+    	assertThat(ref.referenceId).isEqualTo(id);
+    }
 }
