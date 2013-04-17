@@ -121,7 +121,7 @@ public class Reference extends Model {
 
 		// If author and year are defined, generate ID from them using the 
 		// first letter of surname and last two digits of the year
-		if (author != null && year != null) {
+		if (author != null && year != null && !author.isEmpty() && !year.isEmpty()) {
 			if (year.length() >= 4)
 				referenceId = author.charAt(0) + year.substring(2);
 			else
