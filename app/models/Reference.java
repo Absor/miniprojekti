@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import com.avaje.ebean.Ebean;
 
 import play.db.ebean.Model;
+import play.db.jpa.JPA;
 
 
 /**
@@ -138,6 +139,10 @@ public class Reference extends Model {
 		}
 		save();
 	}
+
+	 public static Reference findById(Long id) {
+	        return JPA.em().find(Reference.class, id);
+	    }
 
 	public static boolean isReferenceIdUnique(String referenceId) {
 		if (referenceId == null || referenceId.isEmpty())

@@ -28,8 +28,7 @@ public class Application extends Controller {
 	 */
 	public static Result list() {
 		// Not only find.all() because we need the reference types joined.
-		return ok(list.render(Reference.find.fetch("referenceType").findList(),
-				FieldType.find.all()));
+		return ok(list.render(Reference.find.fetch("referenceType").findList(), FieldType.find.all()));
 	}
 
 	/*
@@ -67,7 +66,7 @@ public class Application extends Controller {
 		if (referenceForm.hasErrors()) {
 			return badRequest(createForm.render(referenceForm, type));
 		}
-		
+
 		// check required fields
 		Reference reference = referenceForm.get();
 		reference.referenceType = type;
@@ -78,12 +77,35 @@ public class Application extends Controller {
 			}
 			return badRequest(createForm.render(referenceForm, type));
 		}
-		
 
 		// save and return to main
 		reference.save();
 		reference.generateReferenceId();
 		flash("success", "Reference has been created!");
+		return GO_HOME;
+	}
+
+	/*
+	 * Fills forms with existing data for editing purposes
+	 */
+
+	public static Result edit(Long id) {
+		Form<Reference> referenceForm = form(Reference.class).fill(Reference.findById(id));
+		ReferenceType type = ReferenceType.find.byId(new Long(0));
+		return ok(editForm.render(id, referenceForm, type));
+	}
+
+	/*
+	 * updates database with new changes
+	 */
+	public static Result update(Long id) {
+		Form<Reference> referenceForm = form(Reference.class).bindFromRequest();
+		ReferenceType type = ReferenceType.find.byId(new Long(0));
+		if (referenceForm.hasErrors()) {
+			return badRequest(editForm.render(id, referenceForm, type));
+		}
+		referenceForm.get().update(id);
+		flash("success", "Computer has been updated");
 		return GO_HOME;
 	}
 

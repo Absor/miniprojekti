@@ -48,13 +48,18 @@
                 @for(fieldType <- fieldTypes) {
             		<td>
 					@{
-						val fields : Map[String, String] = reference.getMap
-						fields.get(fieldType.fieldName) 
+						val fields : Map[String, String] = reference.getMap						
+					    fields.get(fieldType.fieldName)
 					}
 					</td>       
             	}
-            }
+            <td>
+            		<div class="btn-group" id="actions">
+            			<a class="btn btn-primary" id="edit" href="@routes.Application.edit(reference.id)">Edit</a> 
+            		</div>
+            </td>
             </tr>
+            }
             </tbody>
         </table>
     }

@@ -1,0 +1,37 @@
+@(id: Long, referenceForm: Form[Reference], referenceType: ReferenceType)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
+@main {
+
+ 	<h1>Edit reference</h1>
+ 	
+ 	@form(routes.Application.update(id)) {
+ 	
+ 	<fieldset>
+ 	 @if(referenceType.requiredFields.length != 0) {
+        		<h3>Required fields:</h3>
+        		@for(field <- referenceType.requiredFields) {
+					@inputText(referenceForm(field.fieldName), '_label -> field.fieldName)
+        		}
+        	}
+        	@if(referenceType.optionalFields.length != 0) {
+		       	<h3>Optional fields:</h3>
+		       	@inputText(referenceForm("referenceId"), '_label -> "Reference ID")
+		       	@for(field <- referenceType.optionalFields) {
+					@inputText(referenceForm(field.fieldName), '_label -> field.fieldName)
+		       	}
+		    }
+     </fieldset>
+ 
+ 	 <div class="form-actions">
+            <input type="submit" value="Update" class="btn btn-primary"> or
+            <a href="@routes.Application.list()" class="btn">Cancel</a>
+     </div>
+        
+    }
+       
+}
+
