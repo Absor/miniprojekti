@@ -3,7 +3,7 @@ import org.specs2._
 import play.api.test._
 import play.api.test.Helpers._
 
-class StorySpec1 extends Specification {def is =
+class StorySpec2 extends Specification {def is =
 
     "User can" ^
       "use own value for reference ID" ! {
