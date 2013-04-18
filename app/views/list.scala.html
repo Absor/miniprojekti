@@ -1,5 +1,7 @@
 @(references:List[Reference], fieldTypes: List[FieldType])
 
+@import helper._
+
 @main {
     
     <header>
@@ -37,6 +39,9 @@
 					@fieldType.fieldName 
 					</th>       
             }
+            <th>
+            actions
+            </th>
                 </tr>
             </thead>
             <tbody>
@@ -54,9 +59,10 @@
 					</td>       
             	}
             <td>
-            		<div class="btn-group" id="actions">
-            			<a class="btn btn-primary" id="edit" href="@routes.Application.edit(reference.id)">Edit</a> 
-            		</div>
+            @form(routes.Application.delete(reference.id)) {
+            	<a class="btn btn-primary" id="edit" href="@routes.Application.edit(reference.id)">edit</a>
+				<input type="submit" value="delete" class="btn btn-danger">
+			} 
             </td>
             </tr>
             }

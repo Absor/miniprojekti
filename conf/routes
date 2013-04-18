@@ -8,17 +8,20 @@ GET     /                           	controllers.Application.index()
 # References list
 GET     /references                 	controllers.Application.list()
 
-# Add reference
-GET     /references/new              	controllers.Application.choose()
-GET     /references/new/:typeId        	controllers.Application.create(typeId:Long)
-POST    /references/new/:typeId             controllers.Application.save(typeId:Long)
-
 # Bibtex-file
 GET     /references/references.bib     	controllers.Application.generateBib()
 
-# Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               	controllers.Assets.at(path="/public", file)
+# Add reference
+GET     /references/new              	controllers.Application.choose()
+GET     /references/new/:typeId        	controllers.Application.create(typeId:Long)
+POST    /references/new/:typeId         controllers.Application.save(typeId:Long)
 
 # Edit reference
-GET     /references/:id			controllers.Application.edit(id:Long)
-POST    /references/:id			controllers.Application.update(id:Long)
+GET     /references/:id					controllers.Application.edit(id:Long)
+POST    /references/:id					controllers.Application.update(id:Long)
+
+# Delete reference
+POST  	/references/:id/delete          controllers.Application.delete(id:Long)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               	controllers.Assets.at(path="/public", file)
