@@ -58,6 +58,11 @@
             			<a class="btn btn-primary" id="edit" href="@routes.Application.edit(reference.id)">Edit</a> 
             		</div>
             </td>
+            <td>
+				<form action="@routes.Application.delete(reference.id)" method="POST">
+				<input type="submit" value="Delete">
+				</form>
+            </td>
             </tr>
             }
             </tbody>

@@ -22,3 +22,6 @@ GET     /assets/*file               	controllers.Assets.at(path="/public", file)
 # Edit reference
 GET     /references/:id								controllers.Application.edit(id:Long)
 POST    /references/:id								controllers.Application.update(id:Long)
+
+# Delete reference
+POST    /delete/:id                     controllers.Application.delete(id:Long)
