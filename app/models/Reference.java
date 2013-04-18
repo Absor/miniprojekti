@@ -67,6 +67,9 @@ public class Reference extends Model {
 	public String howpublished;
 	
 	public String edition;
+	
+	public Reference() {
+	}
 
 	public static Finder<Long, Reference> find = new Finder<Long, Reference>(Long.class, Reference.class);
 
@@ -119,7 +122,7 @@ public class Reference extends Model {
 
 		// If author and year are defined, generate ID from them using the 
 		// first letter of surname and last two digits of the year
-		if (!author.isEmpty() || !year.isEmpty()) {
+		if (author != null && year != null && !author.isEmpty() && !year.isEmpty()) {
 			if (year.length() >= 4)
 				referenceId = author.charAt(0) + year.substring(2);
 			else
