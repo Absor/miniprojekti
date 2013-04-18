@@ -4,17 +4,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.avaje.ebean.Ebean;
-
 import play.db.ebean.Model;
-import play.db.jpa.JPA;
 
 
 /**
@@ -78,7 +74,10 @@ public class Reference extends Model {
 	 */
 	@Override
 	public String toString() {
-		return Bibtex.generate(referenceType.name, id, this.getMap());
+		if (referenceId == null || referenceId.isEmpty()) {
+			return Bibtex.generate(referenceType.name, id + "", this.getMap());
+		}
+		return Bibtex.generate(referenceType.name, referenceId, this.getMap());
 	}
 	
 	public Map<String, String> getMap() {
@@ -142,10 +141,6 @@ public class Reference extends Model {
 		}
 		save();
 	}
-
-	 public static Reference findById(Long id) {
-	        return JPA.em().find(Reference.class, id);
-	    }
 
 	public static boolean isReferenceIdUnique(String referenceId) {
 		if (referenceId == null || referenceId.isEmpty())

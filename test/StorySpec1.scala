@@ -47,7 +47,7 @@ class StorySpec1 extends Specification {def is =
           // go to file
           browser.$("#download").click()
           
-          browser.pageSource must contain("@inproceedings{1") and
+          browser.pageSource must contain("@inproceedings{aar2000") and
 				contain("title = {titleX}") and
 				contain("booktitle = {booktitleX}") and
 				contain("year = {year2000}") and

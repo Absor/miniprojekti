@@ -90,9 +90,9 @@ public class Application extends Controller {
 	 */
 
 	public static Result edit(Long id) {
-		Form<Reference> referenceForm = form(Reference.class).fill(Reference.findById(id));
-		ReferenceType type = ReferenceType.find.byId(new Long(0));
-		return ok(editForm.render(id, referenceForm, type));
+		Reference reference = Reference.find.fetch("referenceType").where().idEq(id).findUnique();
+		Form<Reference> referenceForm = form(Reference.class).fill(reference);
+		return ok(editForm.render(id, referenceForm, reference.referenceType));
 	}
 
 	/*
@@ -105,7 +105,7 @@ public class Application extends Controller {
 			return badRequest(editForm.render(id, referenceForm, type));
 		}
 		referenceForm.get().update(id);
-		flash("success", "Computer has been updated");
+		flash("success", "Reference has been updated");
 		return GO_HOME;
 	}
 

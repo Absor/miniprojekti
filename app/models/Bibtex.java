@@ -8,7 +8,7 @@ public class Bibtex {
 		return "   " + type + " = {" + text + "},\n";
 	}
 
-	public static String generate(String reference, Long id, Map<String, String> values) {
+	public static String generate(String reference, String id, Map<String, String> values) {
 		String bibtexString = "@" + reference + "{" + id + ",\n";
 		for (String key : values.keySet()) {
 			String value = values.get(key);

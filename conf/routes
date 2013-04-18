@@ -11,7 +11,7 @@ GET     /references                 	controllers.Application.list()
 # Add reference
 GET     /references/new              	controllers.Application.choose()
 GET     /references/new/:typeId        	controllers.Application.create(typeId:Long)
-POST    /references/:typeId             controllers.Application.save(typeId:Long)
+POST    /references/new/:typeId             controllers.Application.save(typeId:Long)
 
 # Bibtex-file
 GET     /references/references.bib     	controllers.Application.generateBib()
@@ -20,5 +20,5 @@ GET     /references/references.bib     	controllers.Application.generateBib()
 GET     /assets/*file               	controllers.Assets.at(path="/public", file)
 
 # Edit reference
-GET     /references/:id								controllers.Application.edit(id:Long)
-POST    /references/:id								controllers.Application.update(id:Long)
+GET     /references/:id			controllers.Application.edit(id:Long)
+POST    /references/:id			controllers.Application.update(id:Long)

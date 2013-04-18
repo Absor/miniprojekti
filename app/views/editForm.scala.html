@@ -6,9 +6,11 @@
 
 @main {
 
- 	<h1>Edit reference</h1>
+	<header>
+ 		<h1>Edit reference</h1>
+ 	</header>
  	
- 	@form(routes.Application.update(id)) {
+ 	@form(routes.Application.update(id), 'class -> "form-horizontal") {
  	
  	<fieldset>
  	 @if(referenceType.requiredFields.length != 0) {
