@@ -6,7 +6,7 @@
 GET     /                           	controllers.Application.index()
 
 # References list
-GET     /references                 	controllers.Application.list()
+GET     /references                 	controllers.Application.list(sort ?= "referenceId", order ?= "asc")
 
 # Bibtex-file
 GET     /references/references.bib     	controllers.Application.generateBib()

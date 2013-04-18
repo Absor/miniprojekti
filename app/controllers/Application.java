@@ -17,7 +17,7 @@ public class Application extends Controller {
 	/*
 	 * Redirects to list of references.
 	 */
-	public static Result GO_HOME = redirect(routes.Application.list());
+	public static Result GO_HOME = redirect(routes.Application.list("referenceId", "asc"));
 
 	public static Result index() {
 		return GO_HOME;
@@ -26,9 +26,9 @@ public class Application extends Controller {
 	/*
 	 * Displays the full list of references.
 	 */
-	public static Result list() {
+	public static Result list(String sortBy, String order) {
 		// Not only find.all() because we need the reference types joined.
-		return ok(list.render(Reference.find.fetch("referenceType").findList(), FieldType.find.all()));
+		return ok(list.render(Reference.find.fetch("referenceType").where().orderBy(sortBy + " " + order).findList(), FieldType.find.all(), sortBy, order));
 	}
 
 	/*
