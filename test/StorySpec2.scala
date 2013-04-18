@@ -105,7 +105,6 @@ class StorySpec2 extends Specification {def is =
           browser.$("#year").text("2009")
           browser.$("input.btn-primary").click()
 
-          browser.$(".alert").first.getText must equalTo("Done! Reference has been created!")
           browser.pageSource must contain("L09") and
           contain("L09-1") and
           contain("L09-2")
@@ -124,8 +123,24 @@ class StorySpec2 extends Specification {def is =
           browser.$("#title").text("titleX")
           browser.$("input.btn-primary").click()
 
-          browser.$(".alert").first.getText must equalTo("Done! Reference has been created!")
-          browser.pageSource must contain("1")
+          browser.$("tr td").get(1).getText must equalTo("1")
+        }
+      } ^
+      "delete a reference" ! {
+        running(TestServer(3333), HTMLUNIT) { browser =>
+
+          browser.goTo("http://localhost:3333/")
+
+          browser.$("#add").click()
+          browser.$("#add_misc").click()
+
+          browser.$("#author").text("Luukkainen, Matti")
+          browser.$("#booktitle").text("booktitleX")
+          browser.$("#title").text("titleX")
+          browser.$("input.btn-primary").click()
+
+          browser.$("#delete_1").click()
+          browser.pageSource must not contain("Luukkainen")
         }
       }
 }
