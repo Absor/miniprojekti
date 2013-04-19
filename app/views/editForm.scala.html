@@ -5,10 +5,15 @@
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
 
 @main {
-
 	<header>
  		<h1>Edit reference</h1>
  	</header>
+ 	
+ 	@if(flash.containsKey("failure")) {
+        <div class="alert alert-error">
+            @flash.get("failure")
+        </div>
+    } 
  	
  	@form(routes.Application.update(id), 'class -> "form-horizontal") {
  	
