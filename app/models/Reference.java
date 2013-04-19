@@ -139,7 +139,7 @@ public class Reference extends Model {
 				suffix++;
 			referenceId += "-" + suffix;
 		}
-		update();
+		save();
 	}
 
 	public static boolean isReferenceIdUnique(String referenceId) {
