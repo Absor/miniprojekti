@@ -1,4 +1,5 @@
 import models.FieldType;
+import models.Reference;
 import models.ReferenceType;
 
 import org.junit.*;
@@ -40,7 +41,7 @@ public class FunctionalTest {
 	@Test
 	public void frontPageShows() {
 
-		Result result = callAction(controllers.routes.ref.Application.list("referenceId", "asc"));
+		Result result = callAction(controllers.routes.ref.Application.list("id", "asc", "id", ""));
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
@@ -56,12 +57,14 @@ public class FunctionalTest {
 	@Test
 	public void listsReferencesOnFrontPage() {
 
-		Result result = callAction(controllers.routes.ref.Application.list("referenceId", "asc"));
+		Result result = callAction(controllers.routes.ref.Application.list("id", "asc", "id", ""));
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
 
 		// all test data shows
+		 
+		//System.out.println(Ebean.find(Reference.class).findList());
 		assertThat(content.contains("testtit1")).isTrue();
 		assertThat(content.contains("testtit2")).isTrue();
 		assertThat(content.contains("testtit3")).isTrue();
@@ -166,7 +169,7 @@ public class FunctionalTest {
 				"Reference has been created!");
 
 		// new addition should be listed with all added info
-		result = callAction(controllers.routes.ref.Application.list("referenceId", "asc"));
+		result = callAction(controllers.routes.ref.Application.list("id", "asc", "id", ""));
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
 		for (int i = 1; i <= 14; i++) {
@@ -192,7 +195,7 @@ public class FunctionalTest {
 				"Reference has been created!");
 
 		// new addition should be listed
-		result = callAction(controllers.routes.ref.Application.list("referenceId", "asc"));
+		result = callAction(controllers.routes.ref.Application.list("id", "asc", "id", ""));
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
 		assertThat(content.contains("badbadbad1")).isTrue();

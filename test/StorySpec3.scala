@@ -18,6 +18,7 @@ class StorySpec3 extends Specification {def is =
           browser.$("input.btn-primary").click()
           
           browser.$("#sort_by_referenceId").click()
+          browser.$("#sort_by_referenceId").click()
 
           browser.$("tr td").get(1).getText must equalTo("2")
         }

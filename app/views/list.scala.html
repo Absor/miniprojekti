@@ -1,4 +1,4 @@
-@(references:List[Reference], fieldTypes: List[FieldType], currentSortBy: String, currentOrder: String)
+@(references:List[Reference], fieldTypes: List[FieldType], currentSortBy: String, currentOrder: String, currentSearchField: String, currentSearchFilter: String)
 
 @import helper._
 
@@ -24,7 +24,7 @@
     }
     
     // Generate the link
-    routes.Application.list(sortBy, order)
+    routes.Application.list(sortBy, order, currentSearchField, currentSearchFilter)
 }
 
 @**********************************
@@ -53,14 +53,14 @@
    		<a class="btn btn-primary" id="download" href="@routes.Application.generateBib()">Download bibtex-file</a>
    	</div>
    	<div class="pull-right">
-   	<form class="form-inline">
-   		<select>
+   	<form class="form-inline" action="@link(null)" method="GET">
+   		<select name="field">
    			@for(fieldType <- fieldTypes) {
-					<option>@fieldType.fieldName</option>
+					<option @{if(currentSearchField == fieldType.fieldName) "selected"}>@fieldType.fieldName</option>
             }
 		</select>
-	  	<input id="searchText" type="text">
-	  	<button class="btn" type="button">Search</button>
+	  	<input id="currentSearchFilter" type="text" name="filter" value="@currentSearchFilter">
+	  	<input type="submit" class="btn" type="button" value="Search" />
   	</form>
    	</div>
    	<br /><br />
