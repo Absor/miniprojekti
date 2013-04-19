@@ -116,11 +116,28 @@ public class Application extends Controller {
 	 */
 	public static Result update(Long id) {
 		Form<Reference> referenceForm = form(Reference.class).bindFromRequest();
-		ReferenceType type = ReferenceType.find.byId(new Long(0));
+		Reference reference = Reference.find.fetch("referenceType").where().idEq(id).findUnique();
+		ReferenceType type = reference.referenceType;
+		
+		if (!Reference.isUpdatedReferenceIdUnique(id, referenceForm.data().get("referenceId"))) {
+			flash("failure", "Reference ID has to be unique!");
+			return badRequest(editForm.render(id, referenceForm, type));
+		}
 		if (referenceForm.hasErrors()) {
 			return badRequest(editForm.render(id, referenceForm, type));
 		}
-		referenceForm.get().update(id);
+		
+		reference = referenceForm.get();
+		reference.referenceType = type;
+		List<String> requiredResults = reference.checkRequired();
+		if (!requiredResults.isEmpty()) {
+			for (String field : requiredResults) {
+				referenceForm.reject(field, "required");
+			}
+			return badRequest(editForm.render(id, referenceForm, type));
+		}
+		
+		reference.update(id);
 		flash("success", "Reference has been updated");
 		return GO_HOME;
 	}

@@ -139,7 +139,7 @@ public class Reference extends Model {
 				suffix++;
 			referenceId += "-" + suffix;
 		}
-		save();
+		update();
 	}
 
 	public static boolean isReferenceIdUnique(String referenceId) {
@@ -149,7 +149,16 @@ public class Reference extends Model {
 		Reference search = find.where().eq("referenceId", referenceId).findUnique();
 		if (search == null)
 			return true;
-		else
+		else 
 			return false;
+	}
+	
+	public static boolean isUpdatedReferenceIdUnique(Long id, String referenceId) {
+		Reference updated = Reference.find.byId(id);
+
+		if (updated.referenceId.equals(referenceId))
+			return true;
+		
+		return isReferenceIdUnique(referenceId);
 	}
 }
