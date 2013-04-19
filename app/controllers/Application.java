@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sun.jndi.toolkit.dir.SearchFilter;
+
 import models.FieldType;
 import models.Reference;
 import models.ReferenceType;
@@ -28,20 +30,21 @@ public class Application extends Controller {
 	 * Displays the full list of references.
 	 */
 	public static Result list(String sortBy, String order, String searchField, String searchFilter) {
-		// Not only find.all() because we need the reference types joined.
 		
-		// TODO
-		// check searchfield and sortBy for being acceptable
 		List<FieldType> fields = FieldType.find.all();
 		List<String> fieldNames = new ArrayList<String>();
 		for (FieldType field : fields) {
 			fieldNames.add(field.fieldName);
 		}
+		fieldNames.add("id");
+		
+		// check searchfield and sortBy for being acceptable field names
 		if (!fieldNames.contains(sortBy)) {
-			searchField = "id";
+			sortBy = "id";
 		}
 		if (!fieldNames.contains(searchField)) {
 			searchField = "id";
+			searchFilter = "";
 		}
 		
 		return ok(list.render(Reference.find.fetch("referenceType").where().ilike(searchField, "%" + searchFilter + "%").orderBy(sortBy + " " + order).findList(), fields, sortBy, order, searchField, searchFilter));
