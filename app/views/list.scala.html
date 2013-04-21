@@ -94,7 +94,7 @@
                 @for(fieldType <- fieldTypes) {
             		<td>
 					@{
-						val fields : Map[String, String] = reference.getMap						
+						val fields : Map[String, String] = reference.getVariables						
 					    fields.get(fieldType.fieldName)
 					}
 					</td>       

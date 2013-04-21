@@ -228,5 +228,65 @@ public class FunctionalTest {
 		assertThat(content.contains("testtit2")).isTrue();
 		assertThat(content.contains("testtit3")).isTrue();
 	}
+	
+	@Test
+	public void sortsResultsByAuthorAscending() {
+
+		Result result = callAction(controllers.routes.ref.Application.list("author", "asc", "id", ""));
+
+		assertThat(status(result)).isEqualTo(OK);
+		String content = contentAsString(result);
+		assertThat(content).matches("(?s).*testaut1.*testaut2.*");
+	}
+	
+	@Test
+	public void sortsResultsByAuthorDescending() {
+
+		Result result = callAction(controllers.routes.ref.Application.list("author", "desc", "id", ""));
+
+		assertThat(status(result)).isEqualTo(OK);
+		String content = contentAsString(result);
+		assertThat(content).matches("(?s).*testaut2.*testaut1.*");
+	}
+	
+	@Test
+	public void sortsResultsByYearAscending() {
+
+		Result result = callAction(controllers.routes.ref.Application.list("year", "asc", "id", ""));
+
+		assertThat(status(result)).isEqualTo(OK);
+		String content = contentAsString(result);
+		assertThat(content).matches("(?s).*testaut1.*testaut2.*");
+	}
+	
+	@Test
+	public void sortsResultsByYearDescending() {
+
+		Result result = callAction(controllers.routes.ref.Application.list("year", "desc", "id", ""));
+
+		assertThat(status(result)).isEqualTo(OK);
+		String content = contentAsString(result);
+		assertThat(content).matches("(?s).*testaut2.*testaut1.*");
+	}
+	
+	@Test
+	public void sortsResultsByPublisherAscending() {
+
+		Result result = callAction(controllers.routes.ref.Application.list("publisher", "asc", "id", ""));
+
+		assertThat(status(result)).isEqualTo(OK);
+		String content = contentAsString(result);
+		assertThat(content).matches("(?s).*testaut1.*testaut2.*");
+	}
+	
+	@Test
+	public void sortsResultsByPublisherDescending() {
+
+		Result result = callAction(controllers.routes.ref.Application.list("publisher", "desc", "id", ""));
+
+		assertThat(status(result)).isEqualTo(OK);
+		String content = contentAsString(result);
+		assertThat(content).matches("(?s).*testaut2.*testaut1.*");
+	}
 
 }

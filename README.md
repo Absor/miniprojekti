@@ -9,10 +9,7 @@ Backlog: https://docs.google.com/spreadsheet/ccc?key=0AnExz_0V_WXhdERLcF9TNm0tQ1
 CI: http://jenkins.staff.cs.helsinki.fi/job/sunshine-lollipops-ohtu/
 
 
-[![Build Status](http://t-tuokarkk.users.cs.helsinki.fi/jenkins/job/Ohtu-miniprojekti/badge/icon)](http://t-tuokarkk.users.cs.helsinki.fi/jenkins/job/Ohtu-miniprojekti/)
-
-
-#setup
+#development setup
 lataa play 2.0.4: http://downloads.typesafe.com/releases/play-2.0.4.zip  
 Asennus: http://www.playframework.com/documentation/2.0.4/Installing (osa PATHista pääasiassa)  
 IDE setup: http://www.playframework.com/documentation/2.0.4/IDE  

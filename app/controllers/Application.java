@@ -2,14 +2,10 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import com.sun.jndi.toolkit.dir.SearchFilter;
 
 import models.FieldType;
 import models.Reference;
 import models.ReferenceType;
-import play.*;
 import play.data.*;
 import play.mvc.*;
 
@@ -158,12 +154,7 @@ public class Application extends Controller {
 	 * Handles bibtex-file generation and serving.
 	 */
 	public static Result generateBib() {
-		String bibtexedReferences = "";
-		List<Reference> references = Reference.find.all();
-		for (Reference reference : references) {
-			bibtexedReferences += reference.toString() + "\n\n";
-		}
-		return ok(bibtexedReferences);
+		return ok(Reference.allBibtexed());
 	}
 
 }

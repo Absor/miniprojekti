@@ -119,7 +119,7 @@ class StorySpec2 extends Specification {def is =
           browser.$("#add_misc").click()
 
           browser.$("#author").text("Luukkainen, Matti")
-          browser.$("#booktitle").text("booktitleX")
+          browser.$("#note").text("noteX")
           browser.$("#title").text("titleX")
           browser.$("input.btn-primary").click()
 
@@ -135,12 +135,32 @@ class StorySpec2 extends Specification {def is =
           browser.$("#add_misc").click()
 
           browser.$("#author").text("Luukkainen, Matti")
-          browser.$("#booktitle").text("booktitleX")
+          browser.$("#note").text("noteX")
           browser.$("#title").text("titleX")
           browser.$("input.btn-primary").click()
 
           browser.$("#delete_1").click()
           browser.pageSource must not contain("Luukkainen")
+        }
+      } ^
+      "edit a reference" ! {
+        running(TestServer(3333), HTMLUNIT) { browser =>
+
+          browser.goTo("http://localhost:3333/")
+
+          browser.$("#add").click()
+          browser.$("#add_misc").click()
+
+          browser.$("#author").text("Luukkainen, Matti")
+          browser.$("#note").text("noteX")
+          browser.$("#title").text("titleX")
+          browser.$("input.btn-primary").click()
+
+          browser.$("#edit_1").click()
+          browser.$("#author").text("Laukkainen, Matti")
+          browser.$("input.btn-primary").click()
+          
+          browser.pageSource must not contain("Luukkainen") and (browser.pageSource must contain("Laukkainen"))
         }
       }
 }

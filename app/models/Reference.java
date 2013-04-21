@@ -75,12 +75,21 @@ public class Reference extends Model {
 	@Override
 	public String toString() {
 		if (referenceId == null || referenceId.isEmpty()) {
-			return Bibtex.generate(referenceType.name, id + "", this.getMap());
+			return Bibtex.generate(referenceType.name, id + "", this.getVariables());
 		}
-		return Bibtex.generate(referenceType.name, referenceId, this.getMap());
+		return Bibtex.generate(referenceType.name, referenceId, this.getVariables());
 	}
 	
-	public Map<String, String> getMap() {
+	public static String allBibtexed() {
+		String bibtexedReferences = "";
+		List<Reference> references = Reference.find.all();
+		for (Reference reference : references) {
+			bibtexedReferences += reference.toString() + "\n\n";
+		}
+		return bibtexedReferences;
+	}
+	
+	public Map<String, String> getVariables() {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 		map.put("referenceId", referenceId);
 		map.put("title", title);
@@ -105,7 +114,7 @@ public class Reference extends Model {
 
 	public List<String> checkRequired() {
 		ArrayList<String> errors = new ArrayList<String>();
-		Map <String, String> fields = this.getMap();
+		Map <String, String> fields = this.getVariables();
 		for (FieldType fieldType : referenceType.requiredFields) {
 			String field = fields.get(fieldType.fieldName);
 			if (field == null || field.isEmpty()) {
