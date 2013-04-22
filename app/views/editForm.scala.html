@@ -18,7 +18,7 @@
  	@form(routes.Application.update(id), 'class -> "form-horizontal") {
  	
  	<fieldset>
- 	 @if(referenceType.requiredFields.length != 0) {
+ 	 		@if(referenceType.requiredFields.length != 0) {
         		<h3>Required fields:</h3>
         		@for(field <- referenceType.requiredFields) {
 					@inputText(referenceForm(field.fieldName), '_label -> field.fieldName)
@@ -31,6 +31,7 @@
 					@inputText(referenceForm(field.fieldName), '_label -> field.fieldName)
 		       	}
 		    }
+		    <input type="hidden" value="@referenceType.id" name="referenceType" />
      </fieldset>
  
  	 <div class="form-actions">

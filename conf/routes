@@ -12,7 +12,7 @@ GET     /references                 	controllers.Application.listReferences(sort
 GET     /references/references.bib     	controllers.Application.generateBib()
 
 # Add reference
-GET     /references/new              	controllers.Application.choose()
+GET     /references/new              	controllers.Application.referenceTypeEditFormChooser()
 GET     /references/new/:typeId        	controllers.Application.create(typeId:Long)
 POST    /references/new/:typeId         controllers.Application.save(typeId:Long)
 

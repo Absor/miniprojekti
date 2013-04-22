@@ -35,6 +35,7 @@ public class FieldType extends Model {
 			fieldNames.add(field.fieldName);
 		}
 		fieldNames.add("id");
+		fieldNames.add("referenceType");
 
 		if (fieldNames.contains(fieldName)) {
 			return true;

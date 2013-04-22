@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.avaje.ebean.validation.NotNull;
+
 import play.data.validation.ValidationError;
 import play.db.ebean.Model;
 
@@ -26,6 +28,7 @@ public class Reference extends Model {
 	public Long id;
 
 	@ManyToOne
+	@NotNull
 	public ReferenceType referenceType;
 	
 	@Column(unique = true)

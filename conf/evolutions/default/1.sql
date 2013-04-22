@@ -10,7 +10,7 @@ create table field_type (
 
 create table reference (
   id                        bigint not null,
-  reference_type_id         bigint,
+  reference_type_id         bigint not null,
   reference_id              varchar(255),
   title                     varchar(255),
   author                    varchar(255),

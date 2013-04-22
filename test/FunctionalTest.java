@@ -73,7 +73,7 @@ public class FunctionalTest {
 	@Test
 	public void chooserPageShows() {
 
-		Result result = callAction(controllers.routes.ref.Application.choose());
+		Result result = callAction(controllers.routes.ref.Application.referenceTypeEditFormChooser());
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
@@ -117,6 +117,7 @@ public class FunctionalTest {
 	public void badRequestWithoutRequiredDataOnCreate() {
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("author", "badbadbad");
+		data.put("referenceType", "1");
 
 		Result result = callAction(controllers.routes.ref.Application.save(1),
 				fakeRequest().withFormUrlEncodedBody(data));
@@ -144,6 +145,7 @@ public class FunctionalTest {
 	@Test
 	public void allFieldsWork() {
 		Map<String, String> data = new HashMap<String, String>();
+		data.put("referenceType", "1");
 		data.put("author", "badbadbad1");
 		data.put("booktitle", "badbadbad2");
 		data.put("title", "badbadbad3");
@@ -180,6 +182,7 @@ public class FunctionalTest {
 	@Test
 	public void createNewInproceedingsWorksWithRequiredData() {
 		Map<String, String> data = new HashMap<String, String>();
+		data.put("referenceType", "1");
 		data.put("author", "badbadbad1");
 		data.put("booktitle", "badbadbad2");
 		data.put("title", "badbadbad3");

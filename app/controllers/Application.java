@@ -42,7 +42,7 @@ public class Application extends Controller {
 	/*
 	 * Displays the reference type chooser.
 	 */
-	public static Result choose() {
+	public static Result referenceTypeEditFormChooser() {
 		return ok(createFormChooser.render(ReferenceType.find.all()));
 	}
 
