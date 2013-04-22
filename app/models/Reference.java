@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import play.data.validation.ValidationError;
 import play.db.ebean.Model;
 
 
@@ -68,6 +69,10 @@ public class Reference extends Model {
 	}
 
 	public static Finder<Long, Reference> find = new Finder<Long, Reference>(Long.class, Reference.class);
+	
+	public static List<Reference> findSortedAndOrdered(String sortByField, String order, String searchField, String searchString) {
+		return Reference.find.fetch("referenceType").where().ilike(searchField, "%" + searchString + "%").orderBy(sortByField + " " + order).findList();
+	}
 
 	/*
 	 * BibTeX-format string.
@@ -169,5 +174,15 @@ public class Reference extends Model {
 			return true;
 		
 		return isReferenceIdUnique(referenceId);
+	}
+	
+	// TODO change to use validation like this (required fields AND referenceID)
+	public Map<String,List<ValidationError>> validate() {
+//		List<ValidationError> list = new ArrayList<ValidationError>();
+//		list.add(new ValidationError("author", "wrong author", null));
+//		LinkedHashMap<String, List<ValidationError>> map = new LinkedHashMap<String, List<ValidationError>>();
+//		map.put("author", list);
+//		return map;
+		return null;
 	}
 }

@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import models.FieldType;
@@ -16,7 +15,8 @@ public class Application extends Controller {
 	/*
 	 * Redirects to list of references.
 	 */
-	public static Result GO_HOME = redirect(routes.Application.list("id", "asc", "id", ""));
+	public static Result GO_HOME = redirect(routes.Application.list("id",
+			"asc", "id", ""));
 
 	public static Result index() {
 		return GO_HOME;
@@ -25,25 +25,20 @@ public class Application extends Controller {
 	/*
 	 * Displays the full list of references.
 	 */
-	public static Result list(String sortBy, String order, String searchField, String searchFilter) {
+	public static Result list(String sortByField, String order,
+			String searchField, String searchString) {
 		
-		List<FieldType> fields = FieldType.find.all();
-		List<String> fieldNames = new ArrayList<String>();
-		for (FieldType field : fields) {
-			fieldNames.add(field.fieldName);
+		if (!FieldType.fieldNameIsValid(sortByField)) {
+			sortByField = "id";
 		}
-		fieldNames.add("id");
-		
-		// check searchfield and sortBy for being acceptable field names
-		if (!fieldNames.contains(sortBy)) {
-			sortBy = "id";
-		}
-		if (!fieldNames.contains(searchField)) {
+		if (!FieldType.fieldNameIsValid(searchField)) {
 			searchField = "id";
-			searchFilter = "";
+			searchString = "";
 		}
-		
-		return ok(list.render(Reference.find.fetch("referenceType").where().ilike(searchField, "%" + searchFilter + "%").orderBy(sortBy + " " + order).findList(), fields, sortBy, order, searchField, searchFilter));
+
+		return ok(list.render(Reference.findSortedAndOrdered(sortByField,
+				order, searchField, searchString), FieldType.find.all(),
+				sortByField, order, searchField, searchString));
 	}
 
 	/*
@@ -74,11 +69,13 @@ public class Application extends Controller {
 		}
 
 		// validation
-		if (!Reference.isReferenceIdUnique(referenceForm.data().get("referenceId"))) {
+		if (!Reference.isReferenceIdUnique(referenceForm.data().get(
+				"referenceId"))) {
 			flash("failure", "Reference ID has to be unique!");
 			return badRequest(createForm.render(referenceForm, type));
 		}
 		if (referenceForm.hasErrors()) {
+			System.out.println(referenceForm);
 			return badRequest(createForm.render(referenceForm, type));
 		}
 
@@ -105,7 +102,8 @@ public class Application extends Controller {
 	 */
 
 	public static Result edit(Long id) {
-		Reference reference = Reference.find.fetch("referenceType").where().idEq(id).findUnique();
+		Reference reference = Reference.find.fetch("referenceType").where()
+				.idEq(id).findUnique();
 		Form<Reference> referenceForm = form(Reference.class).fill(reference);
 		return ok(editForm.render(id, referenceForm, reference.referenceType));
 	}
@@ -115,17 +113,19 @@ public class Application extends Controller {
 	 */
 	public static Result update(Long id) {
 		Form<Reference> referenceForm = form(Reference.class).bindFromRequest();
-		Reference reference = Reference.find.fetch("referenceType").where().idEq(id).findUnique();
+		Reference reference = Reference.find.fetch("referenceType").where()
+				.idEq(id).findUnique();
 		ReferenceType type = reference.referenceType;
-		
-		if (!Reference.isUpdatedReferenceIdUnique(id, referenceForm.data().get("referenceId"))) {
+
+		if (!Reference.isUpdatedReferenceIdUnique(id,
+				referenceForm.data().get("referenceId"))) {
 			flash("failure", "Reference ID has to be unique!");
 			return badRequest(editForm.render(id, referenceForm, type));
 		}
 		if (referenceForm.hasErrors()) {
 			return badRequest(editForm.render(id, referenceForm, type));
 		}
-		
+
 		reference = referenceForm.get();
 		reference.referenceType = type;
 		List<String> requiredResults = reference.checkRequired();
@@ -135,7 +135,7 @@ public class Application extends Controller {
 			}
 			return badRequest(editForm.render(id, referenceForm, type));
 		}
-		
+
 		reference.update(id);
 		flash("success", "Reference has been updated");
 		return GO_HOME;
