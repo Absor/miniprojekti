@@ -74,26 +74,6 @@ public class Reference extends Model {
 		return Reference.find.fetch("referenceType").where().ilike(searchField, "%" + searchString + "%").orderBy(sortByField + " " + order).findList();
 	}
 
-	/*
-	 * BibTeX-format string.
-	 */
-	@Override
-	public String toString() {
-		if (referenceId == null || referenceId.isEmpty()) {
-			return Bibtex.generate(referenceType.name, id + "", this.getVariables());
-		}
-		return Bibtex.generate(referenceType.name, referenceId, this.getVariables());
-	}
-	
-	public static String allBibtexed() {
-		String bibtexedReferences = "";
-		List<Reference> references = Reference.find.all();
-		for (Reference reference : references) {
-			bibtexedReferences += reference.toString() + "\n\n";
-		}
-		return bibtexedReferences;
-	}
-	
 	public Map<String, String> getVariables() {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 		map.put("referenceId", referenceId);

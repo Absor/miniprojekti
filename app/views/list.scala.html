@@ -24,7 +24,7 @@
     }
     
     // Generate the link
-    routes.Application.list(sortBy, order, currentSearchField, currentSearchFilter)
+    routes.Application.listReferences(sortBy, order, currentSearchField, currentSearchFilter)
 }
 
 @**********************************
@@ -101,7 +101,7 @@
             	}
             <td>
             @form(routes.Application.delete(reference.id), 'class -> "form-inline nomargin") {
-            	<a class="btn btn-primary" id="edit_@reference.id" href="@routes.Application.edit(reference.id)">edit</a>
+            	<a class="btn btn-primary" id="edit_@reference.id" href="@routes.Application.editForm(reference.id)">edit</a>
 				<input type="submit" id="delete_@reference.id" value="delete" class="btn btn-danger">
 			} 
             </td>

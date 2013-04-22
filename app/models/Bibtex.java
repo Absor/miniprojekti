@@ -1,24 +1,45 @@
 package models;
 
+import java.util.List;
 import java.util.Map;
 
 public class Bibtex {
 
-	public static String formatFieldRow(String type, String text) {
-		return "   " + type + " = {" + text + "},\n";
+	public static String referencesAsBibtex() {
+		String bibtexedReferences = "";
+		List<Reference> references = Reference.findSortedAndOrdered("id",
+				"asc", "id", "");
+		for (Reference reference : references) {
+			if (reference.referenceId == null
+					|| reference.referenceId.isEmpty()) {
+				bibtexedReferences += oneReferenceAsBibTex(
+						reference.referenceType.name, reference.id + "",
+						reference.getVariables());
+			} else {
+				bibtexedReferences += oneReferenceAsBibTex(
+						reference.referenceType.name, reference.referenceId
+								+ "", reference.getVariables());
+			}
+		}
+		return bibtexedReferences;
 	}
 
-	public static String generate(String reference, String id, Map<String, String> values) {
+	private static String oneReferenceAsBibTex(String reference, String id,
+			Map<String, String> values) {
 		String bibtexString = "@" + reference + "{" + id + ",\n";
 		for (String key : values.keySet()) {
 			String value = values.get(key);
 			if (value != null && !value.isEmpty()) {
-				bibtexString += formatFieldRow(key, parseSpecial(value));
+				bibtexString += formatRow(key, parseSpecial(value));
 			}
 		}
 		// end , is valid bibtex, no need to remove
 		bibtexString += "}";
 		return bibtexString;
+	}
+
+	private static String formatRow(String type, String text) {
+		return "   " + type + " = {" + text + "},\n";
 	}
 
 	// Formats special symbols. http://www.bibtex.org/SpecialSymbols/
@@ -35,4 +56,5 @@ public class Bibtex {
 		// At the moment: { " $ ö Ö å Å ä Ä
 		return parsed;
 	}
+
 }

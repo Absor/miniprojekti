@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import models.Bibtex;
 import models.FieldType;
 import models.Reference;
 import models.ReferenceType;
@@ -12,10 +13,7 @@ import views.html.*;
 
 public class Application extends Controller {
 
-	/*
-	 * Redirects to list of references.
-	 */
-	public static Result GO_HOME = redirect(routes.Application.list("id",
+	public static Result GO_HOME = redirect(routes.Application.listReferences("id",
 			"asc", "id", ""));
 
 	public static Result index() {
@@ -25,9 +23,9 @@ public class Application extends Controller {
 	/*
 	 * Displays the full list of references.
 	 */
-	public static Result list(String sortByField, String order,
+	public static Result listReferences(String sortByField, String order,
 			String searchField, String searchString) {
-		
+
 		if (!FieldType.fieldNameIsValid(sortByField)) {
 			sortByField = "id";
 		}
@@ -35,10 +33,10 @@ public class Application extends Controller {
 			searchField = "id";
 			searchString = "";
 		}
-
-		return ok(list.render(Reference.findSortedAndOrdered(sortByField,
-				order, searchField, searchString), FieldType.find.all(),
-				sortByField, order, searchField, searchString));
+		List<Reference> references = Reference.findSortedAndOrdered(
+				sortByField, order, searchField, searchString);
+		return ok(list.render(references, FieldType.find.all(), sortByField,
+				order, searchField, searchString));
 	}
 
 	/*
@@ -101,7 +99,7 @@ public class Application extends Controller {
 	 * Fills forms with existing data for editing purposes
 	 */
 
-	public static Result edit(Long id) {
+	public static Result editForm(Long id) {
 		Reference reference = Reference.find.fetch("referenceType").where()
 				.idEq(id).findUnique();
 		Form<Reference> referenceForm = form(Reference.class).fill(reference);
@@ -154,7 +152,7 @@ public class Application extends Controller {
 	 * Handles bibtex-file generation and serving.
 	 */
 	public static Result generateBib() {
-		return ok(Reference.allBibtexed());
+		return ok(Bibtex.referencesAsBibtex());
 	}
 
 }

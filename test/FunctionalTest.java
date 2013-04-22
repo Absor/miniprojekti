@@ -41,7 +41,7 @@ public class FunctionalTest {
 	@Test
 	public void frontPageShows() {
 
-		Result result = callAction(controllers.routes.ref.Application.list("id", "asc", "id", ""));
+		Result result = callAction(controllers.routes.ref.Application.listReferences("id", "asc", "id", ""));
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
@@ -57,14 +57,14 @@ public class FunctionalTest {
 	@Test
 	public void listsReferencesOnFrontPage() {
 
-		Result result = callAction(controllers.routes.ref.Application.list("id", "asc", "id", ""));
+		Result result = callAction(controllers.routes.ref.Application.listReferences("id", "asc", "id", ""));
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
 
 		// all test data shows
 		 
-		//System.out.println(Ebean.find(Reference.class).findList());
+		//System.out.println(Ebean.find(Reference.class).findlistReferences());
 		assertThat(content.contains("testtit1")).isTrue();
 		assertThat(content.contains("testtit2")).isTrue();
 		assertThat(content.contains("testtit3")).isTrue();
@@ -169,7 +169,7 @@ public class FunctionalTest {
 				"Reference has been created!");
 
 		// new addition should be listed with all added info
-		result = callAction(controllers.routes.ref.Application.list("id", "asc", "id", ""));
+		result = callAction(controllers.routes.ref.Application.listReferences("id", "asc", "id", ""));
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
 		for (int i = 1; i <= 14; i++) {
@@ -195,7 +195,7 @@ public class FunctionalTest {
 				"Reference has been created!");
 
 		// new addition should be listed
-		result = callAction(controllers.routes.ref.Application.list("id", "asc", "id", ""));
+		result = callAction(controllers.routes.ref.Application.listReferences("id", "asc", "id", ""));
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
 		assertThat(content.contains("badbadbad1")).isTrue();
@@ -232,7 +232,7 @@ public class FunctionalTest {
 	@Test
 	public void sortsResultsByAuthorAscending() {
 
-		Result result = callAction(controllers.routes.ref.Application.list("author", "asc", "id", ""));
+		Result result = callAction(controllers.routes.ref.Application.listReferences("author", "asc", "id", ""));
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
@@ -242,7 +242,7 @@ public class FunctionalTest {
 	@Test
 	public void sortsResultsByAuthorDescending() {
 
-		Result result = callAction(controllers.routes.ref.Application.list("author", "desc", "id", ""));
+		Result result = callAction(controllers.routes.ref.Application.listReferences("author", "desc", "id", ""));
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
@@ -252,7 +252,7 @@ public class FunctionalTest {
 	@Test
 	public void sortsResultsByYearAscending() {
 
-		Result result = callAction(controllers.routes.ref.Application.list("year", "asc", "id", ""));
+		Result result = callAction(controllers.routes.ref.Application.listReferences("year", "asc", "id", ""));
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
@@ -262,7 +262,7 @@ public class FunctionalTest {
 	@Test
 	public void sortsResultsByYearDescending() {
 
-		Result result = callAction(controllers.routes.ref.Application.list("year", "desc", "id", ""));
+		Result result = callAction(controllers.routes.ref.Application.listReferences("year", "desc", "id", ""));
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
@@ -272,7 +272,7 @@ public class FunctionalTest {
 	@Test
 	public void sortsResultsByPublisherAscending() {
 
-		Result result = callAction(controllers.routes.ref.Application.list("publisher", "asc", "id", ""));
+		Result result = callAction(controllers.routes.ref.Application.listReferences("publisher", "asc", "id", ""));
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
@@ -282,7 +282,7 @@ public class FunctionalTest {
 	@Test
 	public void sortsResultsByPublisherDescending() {
 
-		Result result = callAction(controllers.routes.ref.Application.list("publisher", "desc", "id", ""));
+		Result result = callAction(controllers.routes.ref.Application.listReferences("publisher", "desc", "id", ""));
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);

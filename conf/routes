@@ -6,7 +6,7 @@
 GET     /                           	controllers.Application.index()
 
 # References list
-GET     /references                 	controllers.Application.list(sort ?= "id", order ?= "asc", field ?= "id", filter ?= "")
+GET     /references                 	controllers.Application.listReferences(sort ?= "id", order ?= "asc", field ?= "id", filter ?= "")
 
 # Bibtex-file
 GET     /references/references.bib     	controllers.Application.generateBib()
@@ -17,7 +17,7 @@ GET     /references/new/:typeId        	controllers.Application.create(typeId:Lo
 POST    /references/new/:typeId         controllers.Application.save(typeId:Long)
 
 # Edit reference
-GET     /references/:id					controllers.Application.edit(id:Long)
+GET     /references/:id					controllers.Application.editForm(id:Long)
 POST    /references/:id					controllers.Application.update(id:Long)
 
 # Delete reference
