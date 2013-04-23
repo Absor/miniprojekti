@@ -15,69 +15,72 @@ import com.avaje.ebean.validation.NotNull;
 import play.data.validation.ValidationError;
 import play.db.ebean.Model;
 
-
 /**
- * Model for references. A reference has various datafields and a reference type that knows which fields are
- * required and which optional.
- *
+ * Model for references. A reference has various datafields and a reference type
+ * that knows which fields are required and which optional.
+ * 
  */
 @Entity
 public class Reference extends Model {
-	
+
 	@Id
 	public Long id;
 
 	@ManyToOne
 	@NotNull
 	public ReferenceType referenceType;
-	
+
 	@Column(unique = true)
 	public String referenceId;
 
 	public String title;
-	
+
 	public String author;
-	
+
 	public String booktitle;
 
 	public String year;
 
 	public String editor;
-	
+
 	public String volume;
-	
+
 	public String series;
-	
+
 	public String pages;
-	
+
 	public String address;
-	
+
 	public String month;
-	
+
 	public String organization;
-	
+
 	public String publisher;
-	
+
 	public String note;
-	
+
 	public String key;
-	
+
 	public String journal;
-	
+
 	public String howpublished;
-	
+
 	public String edition;
-	
+
 	public Reference() {
 	}
 
-	public static Finder<Long, Reference> find = new Finder<Long, Reference>(Long.class, Reference.class);
-	
-	public static List<Reference> findSortedAndOrdered(String sortByField, String order, String searchField, String searchString) {
-		return Reference.find.fetch("referenceType").where().ilike(searchField, "%" + searchString + "%").orderBy(sortByField + " " + order).findList();
+	public static Finder<Long, Reference> find = new Finder<Long, Reference>(
+			Long.class, Reference.class);
+
+	public static List<Reference> findSortedAndOrdered(String sortByField,
+			String order, String searchField, String searchString) {
+		return Reference.find.fetch("referenceType").where()
+				.ilike(searchField, "%" + searchString + "%")
+				.orderBy(sortByField + " " + order).findList();
 	}
 
-	public Map<String, String> getVariables() {
+	public Map<String, String> getFields() {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 		map.put("referenceId", referenceId);
 		map.put("title", title);
@@ -100,27 +103,96 @@ public class Reference extends Model {
 		return map;
 	}
 
-	public List<String> checkRequired() {
-		ArrayList<String> errors = new ArrayList<String>();
-		Map <String, String> fields = this.getVariables();
+	// Custom form validation
+	public Map<String, List<ValidationError>> validate() {
+		LinkedHashMap<String, List<ValidationError>> map = new LinkedHashMap<String, List<ValidationError>>();
+
+		// errors of reference id
+		map.putAll(checkReferenceId());
+
+		// errors if any of the required fields missing
+		map.putAll(checkRequiredFields());
+
+		if (map.isEmpty()) {
+			return null;
+		}
+		return map;
+	}
+
+	private List<ValidationError> errorEntry(String errorField, String errorText) {
+		List<ValidationError> list = new ArrayList<ValidationError>();
+		list.add(new ValidationError(errorField, errorText, null));
+		return list;
+	}
+
+	private Map<String, List<ValidationError>> checkReferenceId() {
+		LinkedHashMap<String, List<ValidationError>> errors = new LinkedHashMap<String, List<ValidationError>>();
+
+		// empty is valid because it means user wants to generate id
+		if (referenceId == null || referenceId.isEmpty()) {
+			return errors;
+		}
+
+		if (!isReferenceIdUnique()) {
+			errors.put(
+					"referenceId",
+					errorEntry("referenceId",
+							"ID already in use. Leave the field empty to generate a random ID."));
+			return errors;
+		}
+
+		// don't allow only numbers
+		if (referenceId.matches("[0-9]+")) {
+			errors.put(
+					"referenceId",
+					errorEntry(
+							"referenceId",
+							"ID can't consist only of numbers. Leave the field empty to generate a random ID."));
+			return errors;
+		}
+
+		return errors;
+	}
+
+	private boolean isReferenceIdUnique() {
+		Reference search = find.where().eq("referenceId", referenceId)
+				.findUnique();
+		if (search != null && search.id != id) {
+			return false;
+		}
+		return true;
+	}
+
+	private Map<String, List<ValidationError>> checkRequiredFields() {
+		LinkedHashMap<String, List<ValidationError>> errors = new LinkedHashMap<String, List<ValidationError>>();
+
+		Map<String, String> allFields = getFields();
 		for (FieldType fieldType : referenceType.requiredFields) {
-			String field = fields.get(fieldType.fieldName);
+			String field = allFields.get(fieldType.fieldName);
 			if (field == null || field.isEmpty()) {
-				errors.add(fieldType.fieldName);
+				errors.put(fieldType.fieldName,
+						errorEntry(fieldType.fieldName, "Field required."));
 			}
 		}
 		return errors;
 	}
 
-	public void generateReferenceId() {
-		if (referenceId != null && !referenceId.isEmpty())
-			return;
+	@Override
+	public void save() {
+		super.save();
+		if (referenceId == null || referenceId.isEmpty()) {
+			generateReferenceId();
+			super.save();
+		}
+	}
 
-		// If author and year are defined, generate ID from them using the 
+	private void generateReferenceId() {
+		// If author and year are defined, generate ID from them using the
 		// first letter of surname and last two digits of the year
-		if (author != null && year != null && !author.isEmpty() && !year.isEmpty()) {
+		if (author != null && year != null && !author.isEmpty()
+				&& !year.isEmpty()) {
 			if (year.length() >= 4)
-				referenceId = author.charAt(0) + year.substring(2);
+				referenceId = author.charAt(0) + year.substring(0, 4);
 			else
 				referenceId = author.charAt(0) + year;
 		}
@@ -128,44 +200,16 @@ public class Reference extends Model {
 		else {
 			referenceId = Long.toString(this.id);
 		}
-		
-		// If the generated id isn't unique, add a numeric suffix to make it unique
-		if (!isReferenceIdUnique(referenceId)) {
+
+		// If the generated id isn't unique, add a numeric suffix to make it
+		// unique
+		if (!isReferenceIdUnique()) {
 			int suffix = 1;
-			while(!isReferenceIdUnique(referenceId + "-" + suffix))
+			String originalId = referenceId;
+			while (!isReferenceIdUnique()) {
+				referenceId = originalId + "-" + suffix;
 				suffix++;
-			referenceId += "-" + suffix;
+			}
 		}
-		save();
-	}
-
-	public static boolean isReferenceIdUnique(String referenceId) {
-		if (referenceId == null || referenceId.isEmpty())
-			return true;
-		
-		Reference search = find.where().eq("referenceId", referenceId).findUnique();
-		if (search == null)
-			return true;
-		else 
-			return false;
-	}
-	
-	public static boolean isUpdatedReferenceIdUnique(Long id, String referenceId) {
-		Reference updated = Reference.find.byId(id);
-
-		if (updated.referenceId.equals(referenceId))
-			return true;
-		
-		return isReferenceIdUnique(referenceId);
-	}
-	
-	// TODO change to use validation like this (required fields AND referenceID)
-	public Map<String,List<ValidationError>> validate() {
-//		List<ValidationError> list = new ArrayList<ValidationError>();
-//		list.add(new ValidationError("author", "wrong author", null));
-//		LinkedHashMap<String, List<ValidationError>> map = new LinkedHashMap<String, List<ValidationError>>();
-//		map.put("author", list);
-//		return map;
-		return null;
 	}
 }

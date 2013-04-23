@@ -13,8 +13,8 @@ import views.html.*;
 
 public class Application extends Controller {
 
-	public static Result GO_HOME = redirect(routes.Application.listReferences("id",
-			"asc", "id", ""));
+	public static Result GO_HOME = redirect(routes.Application.listReferences(
+			"id", "asc", "id", ""));
 
 	public static Result index() {
 		return GO_HOME;
@@ -61,36 +61,18 @@ public class Application extends Controller {
 	public static Result save(Long typeId) {
 		Form<Reference> referenceForm = form(Reference.class).bindFromRequest();
 		ReferenceType type = ReferenceType.find.byId(typeId);
-		// bad type returns to main page
+
+		// non existing type returns to main page
 		if (type == null) {
 			return GO_HOME;
 		}
 
-		// validation
-		if (!Reference.isReferenceIdUnique(referenceForm.data().get(
-				"referenceId"))) {
-			flash("failure", "Reference ID has to be unique!");
-			return badRequest(createForm.render(referenceForm, type));
-		}
 		if (referenceForm.hasErrors()) {
-			System.out.println(referenceForm);
 			return badRequest(createForm.render(referenceForm, type));
 		}
 
-		// check required fields
 		Reference reference = referenceForm.get();
-		reference.referenceType = type;
-		List<String> requiredResults = reference.checkRequired();
-		if (!requiredResults.isEmpty()) {
-			for (String field : requiredResults) {
-				referenceForm.reject(field, "required");
-			}
-			return badRequest(createForm.render(referenceForm, type));
-		}
-
-		// save and return to main
 		reference.save();
-		reference.generateReferenceId();
 		flash("success", "Reference has been created!");
 		return GO_HOME;
 	}
@@ -98,7 +80,6 @@ public class Application extends Controller {
 	/*
 	 * Fills forms with existing data for editing purposes
 	 */
-
 	public static Result editForm(Long id) {
 		Reference reference = Reference.find.fetch("referenceType").where()
 				.idEq(id).findUnique();
@@ -113,29 +94,19 @@ public class Application extends Controller {
 		Form<Reference> referenceForm = form(Reference.class).bindFromRequest();
 		Reference reference = Reference.find.fetch("referenceType").where()
 				.idEq(id).findUnique();
-		ReferenceType type = reference.referenceType;
-
-		if (!Reference.isUpdatedReferenceIdUnique(id,
-				referenceForm.data().get("referenceId"))) {
-			flash("failure", "Reference ID has to be unique!");
-			return badRequest(editForm.render(id, referenceForm, type));
+		
+		// non existing type returns to main page
+		if (reference == null || reference.referenceType == null) {
+			return GO_HOME;
 		}
+		
 		if (referenceForm.hasErrors()) {
-			return badRequest(editForm.render(id, referenceForm, type));
+			return badRequest(editForm.render(id, referenceForm, reference.referenceType));
 		}
 
 		reference = referenceForm.get();
-		reference.referenceType = type;
-		List<String> requiredResults = reference.checkRequired();
-		if (!requiredResults.isEmpty()) {
-			for (String field : requiredResults) {
-				referenceForm.reject(field, "required");
-			}
-			return badRequest(editForm.render(id, referenceForm, type));
-		}
-
 		reference.update(id);
-		flash("success", "Reference has been updated");
+		flash("success", "Reference has been updated!");
 		return GO_HOME;
 	}
 
@@ -144,7 +115,7 @@ public class Application extends Controller {
 	 */
 	public static Result delete(Long id) {
 		Reference.find.ref(id).delete();
-		flash("success", "Reference has been deleted");
+		flash("success", "Reference has been deleted!");
 		return GO_HOME;
 	}
 

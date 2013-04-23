@@ -14,11 +14,11 @@ public class Bibtex {
 					|| reference.referenceId.isEmpty()) {
 				bibtexedReferences += oneReferenceAsBibTex(
 						reference.referenceType.name, reference.id + "",
-						reference.getVariables());
+						reference.getFields());
 			} else {
 				bibtexedReferences += oneReferenceAsBibTex(
 						reference.referenceType.name, reference.referenceId
-								+ "", reference.getVariables());
+								+ "", reference.getFields());
 			}
 		}
 		return bibtexedReferences;
