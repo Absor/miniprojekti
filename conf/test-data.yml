@@ -28,3 +28,11 @@ references:
         booktitle: testboo3
         year: 3
         publisher: testpub3
+        
+    - !!models.Reference
+        referenceType: !!models.ReferenceType
+                            id: 1
+        author: testaut1
+        title: testtit4
+        year: 123
+        publisher: testpub5

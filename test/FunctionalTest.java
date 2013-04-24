@@ -230,6 +230,20 @@ public class FunctionalTest {
 		assertThat(content.contains("testtit1")).isTrue();
 		assertThat(content.contains("testtit2")).isTrue();
 		assertThat(content.contains("testtit3")).isTrue();
+		assertThat(content.contains("testtit4")).isTrue();
+	}
+	
+	@Test
+	public void bibtexFiltersResults() {
+		Result result = callAction(controllers.routes.ref.Application
+				.generateBib("author", "testaut1"));
+
+		assertThat(status(result)).isEqualTo(OK);
+		String content = contentAsString(result);
+		assertThat(content.contains("testtit1")).isTrue();
+		assertThat(content.contains("testtit4")).isTrue();
+		assertThat(content.contains("testtit2")).isFalse();
+		assertThat(content.contains("testtit3")).isFalse();
 	}
 	
 	@Test

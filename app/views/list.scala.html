@@ -59,13 +59,13 @@
    	
    	<div class="pull-right">
    	<form class="form-inline" action="@link(null)" method="GET">
-   		<select name="field">
+   		<select name="field" id="currentSearchField">
    			@for(fieldType <- fieldTypes) {
-					<option @{if(currentSearchField == fieldType.fieldName) "selected"}>@fieldType.fieldName</option>
+					<option @{if(currentSearchField == fieldType.fieldName) "selected"} value="@fieldType.fieldName">@fieldType.fieldName</option>
             }
 		</select>
 	  	<input id="currentSearchFilter" type="text" name="filter" value="@currentSearchFilter">
-	  	<input type="submit" class="btn" type="button" value="Search" />
+	  	<input id= "search" type="submit" class="btn" type="button" value="Search" />
   	</form>
    	</div>
    	<br /><br />
