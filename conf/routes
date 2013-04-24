@@ -9,7 +9,7 @@ GET     /                           	controllers.Application.index()
 GET     /references                 	controllers.Application.listReferences(sort ?= "id", order ?= "asc", field ?= "id", filter ?= "")
 
 # Bibtex-file
-GET     /references/references.bib     	controllers.Application.generateBib()
+GET     /references/references.bib     	controllers.Application.generateBib(field ?= "id", filter ?= "")
 
 # Add reference
 GET     /references/new              	controllers.Application.referenceTypeEditFormChooser()

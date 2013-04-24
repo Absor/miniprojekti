@@ -122,6 +122,10 @@ public class Application extends Controller {
 	/*
 	 * Handles bibtex-file generation and serving.
 	 */
+	public static Result generateBib(String searchField, String searchString) {
+		return ok(Bibtex.referencesAsBibtex(searchField, searchString));
+	}
+	
 	public static Result generateBib() {
 		return ok(Bibtex.referencesAsBibtex());
 	}

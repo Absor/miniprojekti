@@ -211,7 +211,7 @@ public class FunctionalTest {
 	public void bibtexGenParsesSpecialCharacters() {
 
 		Result result = callAction(controllers.routes.ref.Application
-				.generateBib());
+				.generateBib("id", ""));
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);
@@ -223,7 +223,7 @@ public class FunctionalTest {
 	public void bibtexGenListsAll() {
 
 		Result result = callAction(controllers.routes.ref.Application
-				.generateBib());
+				.generateBib("id", ""));
 
 		assertThat(status(result)).isEqualTo(OK);
 		String content = contentAsString(result);

@@ -50,8 +50,13 @@
 
 	<div class="btn-group" id="actions">      
    		<a class="btn btn-success" id="add" href="@routes.Application.referenceTypeEditFormChooser()">Add a new reference</a>
-   		<a class="btn btn-primary" id="download" href="@routes.Application.generateBib()">Download bibtex-file</a>
+   		@if(currentSearchFilter.length == 0) {
+   		   <a class="btn btn-primary" id="download" href="@routes.Application.generateBib()">Download bibtex-file</a> 
+   		} else {
+   		   <a class="btn btn-primary" id="download" href="@routes.Application.generateBib(currentSearchField, currentSearchFilter)">Download bibtex-file</a>
+ 		}
    	</div>
+   	
    	<div class="pull-right">
    	<form class="form-inline" action="@link(null)" method="GET">
    		<select name="field">

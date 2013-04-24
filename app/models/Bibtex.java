@@ -6,9 +6,13 @@ import java.util.Map;
 public class Bibtex {
 
 	public static String referencesAsBibtex() {
+		return referencesAsBibtex("id", "");
+	}
+	
+	public static String referencesAsBibtex(String field, String filter) {
 		String bibtexedReferences = "";
 		List<Reference> references = Reference.findSortedAndOrdered("id",
-				"asc", "id", "");
+				"asc", field, filter);
 		for (Reference reference : references) {
 				bibtexedReferences += oneReferenceAsBibTex(
 						reference.referenceType.name, reference.getFields()) + "\n\n";
