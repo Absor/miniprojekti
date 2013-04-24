@@ -109,6 +109,40 @@ class StorySpec4 extends Specification {def is =
 
           browser.pageSource must not contain("Reference has been updated!")
         }
+      } ^
+      "cancel editing without affecting the database" ! {
+        running(TestServer(3333), HTMLUNIT) { browser =>
+                    
+          browser.goTo("http://localhost:3333/")
+          browser.$("#add").click()
+          browser.$("#add_inproceedings").click()
+
+          browser.$("#referenceId").text("ABC123")
+          browser.$("#author").text("authorX")
+          browser.$("#booktitle").text("booktitleX")
+          browser.$("#title").text("titleX")
+          browser.$("#year").text("year2000")
+          browser.$("input.btn-primary").click()
+
+          browser.goTo("http://localhost:3333/")
+          browser.$("#add").click()
+          browser.$("#add_inproceedings").click()
+
+          browser.$("#referenceId").text("ABC456")
+          browser.$("#author").text("authorY")
+          browser.$("#booktitle").text("booktitleY")
+          browser.$("#title").text("titleX")
+          browser.$("#year").text("year2000")
+          browser.$("input.btn-primary").click()
+
+          browser.$("#edit_1").click()
+          browser.$("#author").text("authorY")
+          browser.$("#title").text("titleY")
+          browser.$("#cancel").click()
+
+          browser.pageSource must contain("authorX") and
+          contain("booktitleX")
+        }
       } 
       
 }
