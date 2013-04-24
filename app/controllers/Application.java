@@ -62,7 +62,7 @@ public class Application extends Controller {
 		Form<Reference> referenceForm = form(Reference.class).bindFromRequest();
 		ReferenceType type = ReferenceType.find.byId(typeId);
 
-		// non existing type returns to main page
+		// non existing type or data returns to main page
 		if (type == null) {
 			return GO_HOME;
 		}

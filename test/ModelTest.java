@@ -68,8 +68,8 @@ public class ModelTest {
     	ref.referenceType = ReferenceType.find.where().eq("name", "misc").findUnique();
     	ref.author = "Luukkainen, Matti";
     	ref.year = "2009";
-    	ref.generateReferenceId();
-    	assertThat(ref.referenceId).isEqualTo("L09");
+    	ref.save();
+    	assertThat(ref.referenceId).isEqualTo("L2009");
     }
     
     @Test
@@ -78,23 +78,23 @@ public class ModelTest {
     	ref.referenceType = ReferenceType.find.where().eq("name", "misc").findUnique();
     	ref.author = "Luukkainen, Matti";
     	ref.year = "2009";
-    	ref.generateReferenceId();
+    	ref.save();
     	
     	ref = new Reference();
     	ref.referenceType = ReferenceType.find.where().eq("name", "misc").findUnique();
     	ref.author = "Luukkainen, Matti";
     	ref.year = "2009";
-    	ref.generateReferenceId();
+    	ref.save();
     	
-    	assertThat(ref.referenceId).isEqualTo("L09-1");
+    	assertThat(ref.referenceId).isEqualTo("L2009-1");
     	
     	ref = new Reference();
     	ref.referenceType = ReferenceType.find.where().eq("name", "misc").findUnique();
     	ref.author = "Luukkainen, Matti";
     	ref.year = "2009";
-    	ref.generateReferenceId();
+    	ref.save();
     	
-    	assertThat(ref.referenceId).isEqualTo("L09-2");
+    	assertThat(ref.referenceId).isEqualTo("L2009-2");
     }
     
     @Test
@@ -103,7 +103,6 @@ public class ModelTest {
     	ref.referenceType = ReferenceType.find.where().eq("name", "misc").findUnique();
     	ref.author = "Luukkainen, Matti";
     	ref.save();
-    	ref.generateReferenceId();
     	String id = Long.toString(ref.id);
     	assertThat(ref.referenceId).isEqualTo(id);
     }

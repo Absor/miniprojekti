@@ -47,7 +47,7 @@ class StorySpec1 extends Specification {def is =
           // go to file
           browser.$("#download").click()
           
-          browser.pageSource must contain("@inproceedings{aar2000") and
+          browser.pageSource must contain("@inproceedings{ayear") and
 				contain("title = {titleX}") and
 				contain("booktitle = {booktitleX}") and
 				contain("year = {year2000}") and
@@ -73,7 +73,7 @@ class StorySpec1 extends Specification {def is =
           browser.$("input.btn-primary").click()
           
           // should still be on the page
-          browser.$(".help-inline").get(3).getText must equalTo("required") 
+          browser.$(".help-inline").get(3).getText must equalTo("Field required.") 
         }
       } ^
       "choose to create most used reference types (inproceedings, article, book, misc)" ! {

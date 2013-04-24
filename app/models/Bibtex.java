@@ -10,23 +10,15 @@ public class Bibtex {
 		List<Reference> references = Reference.findSortedAndOrdered("id",
 				"asc", "id", "");
 		for (Reference reference : references) {
-			if (reference.referenceId == null
-					|| reference.referenceId.isEmpty()) {
 				bibtexedReferences += oneReferenceAsBibTex(
-						reference.referenceType.name, reference.id + "",
-						reference.getFields());
-			} else {
-				bibtexedReferences += oneReferenceAsBibTex(
-						reference.referenceType.name, reference.referenceId
-								+ "", reference.getFields());
-			}
+						reference.referenceType.name, reference.getFields()) + "\n\n";
 		}
 		return bibtexedReferences;
 	}
 
-	private static String oneReferenceAsBibTex(String reference, String id,
-			Map<String, String> values) {
-		String bibtexString = "@" + reference + "{" + id + ",\n";
+	private static String oneReferenceAsBibTex(String referenceType, Map<String, String> values) {
+		String refId = values.remove("referenceId");
+		String bibtexString = "@" + referenceType + "{" + refId + ",\n";
 		for (String key : values.keySet()) {
 			String value = values.get(key);
 			if (value != null && !value.isEmpty()) {

@@ -105,18 +105,23 @@ public class Reference extends Model {
 
 	// Custom form validation
 	public Map<String, List<ValidationError>> validate() {
-		LinkedHashMap<String, List<ValidationError>> map = new LinkedHashMap<String, List<ValidationError>>();
+		LinkedHashMap<String, List<ValidationError>> errors = new LinkedHashMap<String, List<ValidationError>>();
+		
+		if (referenceType == null) {
+			errors.put("referenceType", errorEntry("referenceType", "Type can't be empty."));
+			return errors;
+		}
 
 		// errors of reference id
-		map.putAll(checkReferenceId());
+		errors.putAll(checkReferenceId());
 
 		// errors if any of the required fields missing
-		map.putAll(checkRequiredFields());
+		errors.putAll(checkRequiredFields());
 
-		if (map.isEmpty()) {
+		if (errors.isEmpty()) {
 			return null;
 		}
-		return map;
+		return errors;
 	}
 
 	private List<ValidationError> errorEntry(String errorField, String errorText) {

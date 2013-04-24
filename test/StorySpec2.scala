@@ -52,7 +52,7 @@ class StorySpec2 extends Specification {def is =
           browser.$("#year").text("year2000")
           browser.$("input.btn-primary").click()
 
-          browser.pageSource must contain("Reference ID has to be unique!")
+          browser.pageSource must contain("ID already in use. Leave the field empty to generate a random ID.")
         }
       } ^
       "let the reference ID be generated from the author and year" ! {
@@ -70,7 +70,7 @@ class StorySpec2 extends Specification {def is =
           browser.$("input.btn-primary").click()
 
           browser.$(".alert").first.getText must equalTo("Done! Reference has been created!")
-          browser.pageSource must contain("L09")
+          browser.pageSource must contain("L2009")
         }
       } ^
       "let the reference ID be generated from the author and year using automatic suffixes" ! {
@@ -105,9 +105,9 @@ class StorySpec2 extends Specification {def is =
           browser.$("#year").text("2009")
           browser.$("input.btn-primary").click()
 
-          browser.pageSource must contain("L09") and
-          contain("L09-1") and
-          contain("L09-2")
+          browser.pageSource must contain("L2009") and
+          contain("L2009-1") and
+          contain("L2009-2")
         }
       } ^
       "let the reference ID be generated from the database ID" ! {
