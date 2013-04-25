@@ -185,7 +185,29 @@ public class FunctionalTest {
 				fakeRequest().withFormUrlEncodedBody(data3));
 		assertThat(status(result3)).isEqualTo(BAD_REQUEST);
 	}
+	
+	@Test
+	public void badRequestSortByFieldsWrong() {
 
+		Result result = callAction(controllers.routes.ref.Application
+				.listReferences("bad", "desc", "id", ""));
+
+		assertThat(status(result)).isEqualTo(OK);
+		String content = contentAsString(result);
+		assertThat(content).matches("(?s).*testaut2.*testaut1.*");
+	}
+		
+	@Test
+	public void badRequestSearchFieldsWrong() {
+
+		Result result = callAction(controllers.routes.ref.Application
+				.listReferences("publisher", "desc", "bad", ""));
+
+		assertThat(status(result)).isEqualTo(OK);
+		String content = contentAsString(result);
+		assertThat(content).matches("(?s).*testaut2.*testaut1.*");
+	}
+	
 	@Test
 	public void allFieldsWork() {
 		Map<String, String> data = new HashMap<String, String>();
