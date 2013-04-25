@@ -150,10 +150,10 @@ public class FunctionalTest {
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("referenceId", "ref1");
 		data.put("referenceType", "1");
-		data.put("author", "a");
-		data.put("booktitle", "a");
-		data.put("title", "a");
-		data.put("year", "a");
+		data.put("author", "aaaa");
+		data.put("booktitle", "aaaa");
+		data.put("title", "aaaa");
+		data.put("year", "aaaa");
 		Result result = callAction(controllers.routes.ref.Application.save(1),
 				fakeRequest().withFormUrlEncodedBody(data));
 		assertThat(flash(result).get("success")).isEqualTo(
@@ -162,10 +162,10 @@ public class FunctionalTest {
 		Map<String, String> data2 = new HashMap<String, String>();
 		data2.put("referenceId", "ref2");
 		data2.put("referenceType", "1");
-		data2.put("author", "b");
-		data2.put("booktitle", "b");
-		data2.put("title", "b");
-		data2.put("year", "b");
+		data2.put("author", "bbbb");
+		data2.put("booktitle", "bbbb");
+		data2.put("title", "bbbb");
+		data2.put("year", "bbbb");
 		Result result2 = callAction(controllers.routes.ref.Application.save(1),
 				fakeRequest().withFormUrlEncodedBody(data2));
 		assertThat(flash(result2).get("success")).isEqualTo(
@@ -174,10 +174,10 @@ public class FunctionalTest {
 		Map<String, String> data3 = new HashMap<String, String>();
 		data3.put("referenceType", "1");
 		data3.put("referenceId", "ref1");
-		data3.put("author", "b");
-		data3.put("booktitle", "b");
-		data3.put("title", "b");
-		data3.put("year", "b");
+		data3.put("author", "bbbb");
+		data3.put("booktitle", "bbbb");
+		data3.put("title", "bbbb");
+		data3.put("year", "bbbb");
 		Reference search = Reference.find.where().eq("referenceId", "ref2")
 				.findUnique();
 		Result result3 = callAction(
@@ -207,6 +207,33 @@ public class FunctionalTest {
 		String content = contentAsString(result);
 		assertThat(content).matches("(?s).*testaut2.*testaut1.*");
 	}
+	
+	@Test
+	public void badRequestEmptyFieldsOnUpdate() {
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("referenceId", "ref1");
+		data.put("referenceType", "1");
+		data.put("author", "bbb");
+		data.put("booktitle", "bbb");
+		data.put("title", "bbb");
+		data.put("year", "bbb");
+		Result result = callAction(controllers.routes.ref.Application.save(1),
+				fakeRequest().withFormUrlEncodedBody(data));
+		assertThat(flash(result).get("success")).isEqualTo(
+				"Reference has been created!");
+		
+		Map<String, String> data2 = new HashMap<String, String>();
+		data2.put("referenceType", "1");
+		data2.put("referenceId", "ref1");
+		data2.put("booktitle", "bbb");
+		data2.put("year", "bbb");
+		Reference search = Reference.find.where().eq("referenceId", "ref1")
+				.findUnique();
+		Result result2 = callAction(
+				controllers.routes.ref.Application.update(search.id),
+				fakeRequest().withFormUrlEncodedBody(data2));
+		assertThat(status(result2)).isEqualTo(BAD_REQUEST);
+		}
 	
 	@Test
 	public void allFieldsWork() {
