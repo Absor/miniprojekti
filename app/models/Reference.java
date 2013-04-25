@@ -106,9 +106,10 @@ public class Reference extends Model {
 	// Custom form validation
 	public Map<String, List<ValidationError>> validate() {
 		LinkedHashMap<String, List<ValidationError>> errors = new LinkedHashMap<String, List<ValidationError>>();
-		
+
 		if (referenceType == null) {
-			errors.put("referenceType", errorEntry("referenceType", "Type can't be empty."));
+			errors.put("referenceType",
+					errorEntry("referenceType", "Type can't be empty."));
 			return errors;
 		}
 
@@ -146,15 +147,15 @@ public class Reference extends Model {
 			return errors;
 		}
 
-		// don't allow only numbers
-		if (referenceId.matches("[0-9]+")) {
-			errors.put(
-					"referenceId",
-					errorEntry(
-							"referenceId",
-							"ID can't consist only of numbers. Leave the field empty to generate a random ID."));
-			return errors;
-		}
+//		// don't allow only numbers
+//		if (referenceId.matches("[0-9]+")) {
+//			errors.put(
+//					"referenceId",
+//					errorEntry(
+//							"referenceId",
+//							"ID can't consist only of numbers. Leave the field empty to generate a random ID."));
+//			return errors;
+//		}
 
 		return errors;
 	}
@@ -185,25 +186,36 @@ public class Reference extends Model {
 	@Override
 	public void save() {
 		super.save();
-		if (referenceId == null || referenceId.isEmpty()) {
+		if (referenceId == null || referenceId.isEmpty() || referenceId.replaceAll("\\s+", "").isEmpty()) {
 			generateReferenceId();
 			super.save();
 		}
 	}
 
+	@Override
+	public void update(Object id) {
+		if (referenceId == null || referenceId.isEmpty() || referenceId.replaceAll("\\s+", "").isEmpty()) {
+			generateReferenceId();
+		}
+		super.update(id);
+	}
+
 	private void generateReferenceId() {
+		// if nothing else, use the database generated id
+		referenceId = Long.toString(this.id);
+
 		// If author and year are defined, generate ID from them using the
 		// first letter of surname and last two digits of the year
-		if (author != null && year != null && !author.isEmpty()
-				&& !year.isEmpty()) {
-			if (year.length() >= 4)
-				referenceId = author.charAt(0) + year.substring(0, 4);
-			else
-				referenceId = author.charAt(0) + year;
-		}
-		// Otherwise use the database generated id
-		else {
-			referenceId = Long.toString(this.id);
+		if (author != null && year != null) {
+			// remove all whitespace
+			String strippedAuthor = author.replaceAll("\\s+", "");
+			String strippedYear = year.replaceAll("\\s+", "");
+			if (strippedYear.length() >= 4 && !strippedAuthor.isEmpty())
+				referenceId = strippedAuthor.charAt(0)
+						+ strippedYear.substring(0, 4);
+			else if (!strippedYear.isEmpty() && !strippedAuthor.isEmpty()) {
+				referenceId = strippedAuthor.charAt(0) + strippedYear;
+			}
 		}
 
 		// If the generated id isn't unique, add a numeric suffix to make it

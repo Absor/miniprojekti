@@ -57,7 +57,7 @@ class StorySpec4 extends Specification {def is =
           browser.pageSource must not contain("Reference has been updated!")
         }
       } ^
-      "not leave reference id empty when editing" ! {
+      "generate a new reference id by leaving reference id empty when editing" ! {
         running(TestServer(3333), HTMLUNIT) { browser =>
                     
           browser.goTo("http://localhost:3333/")
@@ -75,7 +75,7 @@ class StorySpec4 extends Specification {def is =
           browser.$("#referenceId").text("")
           browser.$("input.btn-primary").click()
 
-          browser.pageSource must not contain("Reference has been updated!")
+          browser.pageSource must contain("Reference has been updated!") and contain("ayear") and not contain("ABC123")
         }
       } ^
       "not use already existing reference id when editing" ! {
